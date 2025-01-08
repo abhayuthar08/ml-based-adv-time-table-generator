@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const adminRoutes = require('./routes/adminRoutes.js');
+const teacherRoutes = require('./routes/teacherRoutes.js');
+const mixedRoutes = require('./routes/mixedRoutes.js')
 
 // Load environment variables from .env file
 dotenv.config();
@@ -37,6 +40,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 app.get('/', (req, res) => {
   res.send('Welcome to the SchedulifyX API - Timetable Generator');
 });
+
+app.use('/', adminRoutes);
+// app.use('/api/teacher', teacherRoutes);
+// app.use('/api/add' , mixedRoutes);
 
 // Port setup
 const PORT = process.env.PORT || 5000;
