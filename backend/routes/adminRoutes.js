@@ -1,60 +1,37 @@
-// const express = require('express');
-// const { registerAdmin, loginAdmin , createTimetable } = require('../controllers/adminController.js'); // Import controllers
-// const { addTeacher , getAllTeachers } = require('../controllers/teacherController.js');  // Adjust path if needed
-
-// const router = express.Router();
-
-// router.post('/add-teacher', addTeacher);
-// router.get('/getAllTeachers', getAllTeachers);
-
-
-// // Routes
-// router.post('/register', registerAdmin);
-// router.post('/login', loginAdmin);
-
-
-
-// router.post('/addTeacher', addTeacher);
-// router.get('/getAllTeachers', getAllTeachers);
-
-// // router.post('/create-timetable', createTimetable);
-
-// module.exports = router;
-
 const express = require('express');
 const {
+  registerAdmin,
+  loginAdmin,
   registerTeacher,
   addSubjectsToTeacher,
   addSubject,
   addRoomVenue,
-  addCourse , registerAdmin, loginAdmin ,  generateTimetable , getTimetable
+  addCourse,
+  generateTimetable,
+  getTimeTable
 } = require('../controllers/allControllers.js'); // Import all controllers
-// const { registerAdmin, loginAdmin , createTimetable } = require('../controllers/adminController.js'); // Import controllers
-
 
 const router = express.Router();
 
-router.post('/register', registerAdmin);
-router.post('/login', loginAdmin);
+// Admin authentication routes
+router.post('/register', registerAdmin); // Register an admin
+router.post('/login', loginAdmin); // Login for admin
 
 // Teacher-related routes
-router.post('/register-teacher', registerTeacher);
-router.post('/add-subjects-to-teacher', addSubjectsToTeacher);
+router.post('/register-teacher', registerTeacher); // Register a teacher
+router.post('/add-subjects-to-teacher', addSubjectsToTeacher); // Add subjects to a teacher
 
 // Subject-related routes
-router.post('/add-subject', addSubject);
+router.post('/add-subject', addSubject); // Add a new subject
 
 // Room venue-related routes
-router.post('/add-room-venue', addRoomVenue);
+router.post('/add-room-venue', addRoomVenue); // Add a new room venue
 
 // Course-related routes
-router.post('/add-course', addCourse);
+router.post('/add-course', addCourse); // Add a new course
 
-// Admin-related routes
-// router.post('/admin/login', loginAdmin);
-
-router.post('/generate-time-table', generateTimetable);
-router.post('/get-time-table' , getTimetable);
+// Timetable-related routes
+router.post('/generate-time-table', generateTimetable); // Generate timetable
+router.post('/get-time-table', getTimeTable); // Fetch generated timetable
 
 module.exports = router;
-
