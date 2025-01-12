@@ -7,7 +7,7 @@ const {
   addSubject,
   addRoomVenue,
   addCourse,
-  generateTimetable,
+  generateTimeTableController ,
   getTimeTable
 } = require('../controllers/allControllers.js'); // Import all controllers
 
@@ -19,7 +19,7 @@ router.post('/login', loginAdmin); // Login for admin
 
 // Teacher-related routes
 router.post('/register-teacher', registerTeacher); // Register a teacher
-router.post('/add-subjects-to-teacher', addSubjectsToTeacher); // Add subjects to a teacher
+// router.post('/add-subjects-to-teacher', addSubjectsToTeacher); // Add subjects to a teacher
 
 // Subject-related routes
 router.post('/add-subject', addSubject); // Add a new subject
@@ -28,10 +28,10 @@ router.post('/add-subject', addSubject); // Add a new subject
 router.post('/add-room-venue', addRoomVenue); // Add a new room venue
 
 // Course-related routes
-router.post('/add-course', addCourse); // Add a new course
+// router.post('/add-course', addCourse); // Add a new course
 
 // Timetable-related routes
-router.post('/generate-time-table', generateTimetable); // Generate timetable
-router.post('/get-time-table', getTimeTable); // Fetch generated timetable
+router.post('/generate-time-table', generateTimeTableController); // Generate timetable
+// router.post('/get-time-table', getTimeTable); // Fetch generated timetable
 
 module.exports = router;
