@@ -565,41 +565,37 @@ async function generateConflictFreeTimetable(data) {
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-const generateTimeTableFromServices = async (req, res) => {
-  try {
-    const {
-      collegeName,
-      branchName,
-      workingDays,
-      classTimes,
-      subjects,
-      teachers,
-      rooms,
-      totalClasses,
-    } = req.body;
-
-    // Validate required fields
-    validateRequiredFields(req.body, [
-      'collegeName',
-      'branchName',
-      'workingDays',
-      'classTimes',
-      'subjects',
-      'teachers',
-      'rooms',
-      'totalClasses',
-    ]);
-
-    // Generate timetable
-    const timetable = await generateConflictFreeTimetable(req.body);
-    res.status(200).json({
-      message: 'Timetable generated successfully!',
-      timetable,
-    });
-  } catch (error) {
-    console.error('Error generating timetable:', error.message);
-    res.status(400).json({ error: error.message });
+const generateTimeTableFromServices = async ({
+  collegeName,
+  branchName,
+  workingDays,
+  classTimes,
+  totalClasses,
+  subjects,
+  teachers,
+  rooms,
+  classDuration,
+  totalClassesPerDay,
+}) => {
+  if (!collegeName || !branchName) {
+    throw new Error('College name or branch name is missing');
   }
+
+  // Logic for timetable generation
+  const timetable = {
+    collegeName,
+    branchName,
+    workingDays,
+    classTimes,
+    totalClasses,
+    subjects,
+    teachers,
+    rooms,
+    classDuration,
+    totalClassesPerDay,
+  };
+
+  return timetable; // Return a mock or actual generated timetable
 };
 
 module.exports = {
