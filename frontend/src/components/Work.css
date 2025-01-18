@@ -1,0 +1,42 @@
+/* Define the gradient animation for the text */
+@keyframes water {
+  0% {
+    background-position: -100%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #ff7c7c, #ff7f00, #ffb7b7);
+  background-size: 200% 100%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.text-gradient:hover {
+  animation: water 3s linear infinite;
+  font-weight: 800;
+  transform: scale(1.2); /* Slightly bigger font */
+}
+
+/* Applying hover effects to h1 */
+h1 {
+  font-weight: normal;
+  transition: font-size 0.3s ease, font-weight 0.3s ease;
+}
+
+h1:hover {
+  font-size: calc(1.5 * 10vw);
+  font-weight: 800;
+}
+
+/* Additional styles for the gradient hover effect */
+h1:hover .text-gradient {
+  animation: water 3s linear infinite;
+  font-weight: 800;
+  transform: scale(1.2);
+}

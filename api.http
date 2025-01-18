@@ -128,55 +128,381 @@ Content-Type: application/json
 POST http://localhost:5000/generate-time-table
 Content-Type: application/json
 
+### Register Admin
+POST http://localhost:5000/register
+Content-Type: application/json
 
 {
-  "collegeName": "ABC University",
+  "name": "student123",
+  "email": "admin123@example.com",
+  "password": "admin123"
+}
+
+### Login Admin
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "admin123@example.com",
+  "password": "admin123"
+}
+
+# ----------------------------------------
+
+# ### Register a Teacher
+# POST http://localhost:5000/api/teacher/register
+# Content-Type: application/json
+
+# {
+#   "name": "Mark Taylor",
+#   "email": "mark.taylor@example.com",
+#   "password": "securePassword1234",
+#   "subjects": ["English", "History", "Geography", "Art"],
+#   "contactNumber": "9876543210"
+# }
+
+### Teacher Registration (Register a Teacher)
+POST http://localhost:5000/register-teacher
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "password": "password123",
+  "subjects": ["Math", "Science"],
+  "contactNumber": "1234567890"
+}
+
+### Add Subjects to an Existing Teacher (Assign new subjects)
+POST http://localhost:5000/add-subjects-to-teacher
+Content-Type: application/json
+
+{
+  "teacherId": "677e3f078763d5365aea3854",
+  "subjects": ["English"]
+}
+
+### Add a New Subject (Subject creation)
+POST http://localhost:5000/add-subject
+Content-Type: application/json
+
+{
+  "name": "Biology"
+}
+
+### Add a New Room Venue (Room venue creation)
+POST http://localhost:5000/add-room-venue
+Content-Type: application/json
+
+{
+  "name": "Room 201",
+  "capacity": 60
+}
+
+### Add a New Course (Course creation)
+### Add Course
+POST http://localhost:5000/add-course
+Content-Type: application/json
+
+{
+  "name": "Bachelor of Science",
+  "courseCode": "BSc001",  // Add a unique course code
+  "description": "A 3-year degree program in Science.",
+  "teachers": [],  // Optional: If you want to add teachers, provide an array of teacher IDs
+  "subjects": []   // Optional: If you want to add subjects, provide an array of subject IDs
+}
+
+
+### Fetch All Teachers (For testing `getAllTeachers` route)
+GET http://localhost:5000/getAllTeachers
+Content-Type: application/json
+
+
+
+
+
+# ### Login a Teacher
+# ### Login a Teacher
+# POST http://localhost:5000/api/teacher/login
+# Content-Type: application/json
+
+# { 
+#   "email": "mark.taylor@example.com",
+#   "password": "securePassword1234"
+# }
+
+
+# ###
+
+# ### Access Protected Teacher Profile (Replace <token> with actual token)
+# GET http://localhost:5000/api/teacher/profile
+# Authorization: Bearer <token>
+
+# ###
+
+# ### Add a Subject to a Teacher
+# POST http://localhost:5000/api/admin/addTeacher
+# Content-Type: application/json
+
+# {
+#   "name": "kumkum",
+#   "email": "john11.doe@example.com",
+#   "password": "kumkum1",
+#   "contactNumber": "1234567890",
+#   "subjects": ["maths", "science"]
+# }
+
+###
+
+
+POST http://localhost:5000/generate-time-table
+Content-Type: application/json
+
+{
+  "collegeName": "XYZ College",
   "branchName": "Computer Science",
-  "classes": ["CS-I"],
   "workingDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-  "subjects": [
-    {
-      "subjectName": "Mathematics",
-      "teacherName": "Dr. Smith"
-    },
-    {
-      "subjectName": "Physics",
-      "teacherName": "Prof. Johnson"
-    },
-    {
-      "subjectName": "Chemistry",
-      "teacherName": "Dr. Adams"
-    },
-    {
-      "subjectName": "Computer Science",
-      "teacherName": "Mr. Brown"
-    }
+  "classTimes": ["9:00-10:00", "10:00-11:00", "11:00-12:00"],
+  "subjects": ["Mathematics", "Physics", "Chemistry"],
+  "teachers": [
+    { "name": "Dr. Smith", "subject": "Mathematics" },
+    { "name": "Prof. Johnson", "subject": "Physics" }
   ],
+  "rooms": ["Room 101", "Room 102"],
+  "classDuration": 60,
+  "totalClassesPerDay": 6,
+  "breaksDuration": 15
+}
+
+
+
+###
+
+POST http://localhost:5000/get-time-table
+Content-Type: application/json
+
+### Register Admin
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+  "name": "student123",
+  "email": "admin123@example.com",
+  "password": "admin123"
+}
+
+### Login Admin
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "admin123@example.com",
+  "password": "admin123"
+}
+
+# ----------------------------------------
+
+# ### Register a Teacher
+# POST http://localhost:5000/api/teacher/register
+# Content-Type: application/json
+
+# {
+#   "name": "Mark Taylor",
+#   "email": "mark.taylor@example.com",
+#   "password": "securePassword1234",
+#   "subjects": ["English", "History", "Geography", "Art"],
+#   "contactNumber": "9876543210"
+# }
+
+### Teacher Registration (Register a Teacher)
+POST http://localhost:5000/register-teacher
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "password": "password123",
+  "subjects": ["Math", "Science"],
+  "contactNumber": "1234567890"
+}
+
+### Add Subjects to an Existing Teacher (Assign new subjects)
+POST http://localhost:5000/add-subjects-to-teacher
+Content-Type: application/json
+
+{
+  "teacherId": "677e3f078763d5365aea3854",
+  "subjects": ["English"]
+}
+
+### Add a New Subject (Subject creation)
+POST http://localhost:5000/add-subject
+Content-Type: application/json
+
+{
+  "name": "Biology"
+}
+
+### Add a New Room Venue (Room venue creation)
+POST http://localhost:5000/add-room-venue
+Content-Type: application/json
+
+{
+  "name": "Room 201",
+  "capacity": 60
+}
+
+### Add a New Course (Course creation)
+### Add Course
+POST http://localhost:5000/add-course
+Content-Type: application/json
+
+{
+  "name": "Bachelor of Science",
+  "courseCode": "BSc001",  // Add a unique course code
+  "description": "A 3-year degree program in Science.",
+  "teachers": [],  // Optional: If you want to add teachers, provide an array of teacher IDs
+  "subjects": []   // Optional: If you want to add subjects, provide an array of subject IDs
+}
+
+
+### Fetch All Teachers (For testing `getAllTeachers` route)
+GET http://localhost:5000/getAllTeachers
+Content-Type: application/json
+
+
+
+
+
+# ### Login a Teacher
+# ### Login a Teacher
+# POST http://localhost:5000/api/teacher/login
+# Content-Type: application/json
+
+# { 
+#   "email": "mark.taylor@example.com",
+#   "password": "securePassword1234"
+# }
+
+
+# ###
+
+# ### Access Protected Teacher Profile (Replace <token> with actual token)
+# GET http://localhost:5000/api/teacher/profile
+# Authorization: Bearer <token>
+
+# ###
+
+# ### Add a Subject to a Teacher
+# POST http://localhost:5000/api/admin/addTeacher
+# Content-Type: application/json
+
+# {
+#   "name": "kumkum",
+#   "email": "john11.doe@example.com",
+#   "password": "kumkum1",
+#   "contactNumber": "1234567890",
+#   "subjects": ["maths", "science"]
+# }
+
+###
+
+
+POST http://localhost:5000/generate-time-table
+Content-Type: application/json
+
+
+
+{
+  "collegeName": "XYZ College",
+  "branchName": "Computer Science",
+  "workingDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
   "classTimes": [
     "9:00-10:00",
     "10:00-11:00",
     "11:00-12:00",
+    "12:00-1:00",
     "1:00-2:00",
     "2:00-3:00"
   ],
+  "totalClasses": ["CS-I", "CS-J"],
+  "subjects": [
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "English",
+    "History",
+    "Computer Science"
+  ],
+  "teachers": [
+    { "name": "Dr. Smith", "subject": "Mathematics" },
+    { "name": "Prof. Johnson", "subject": "Physics" },
+    { "name": "Prof. Taylor", "subject": "Chemistry" },
+    { "name": "Mark Taylor", "subject": "English" },
+    { "name": "John Doe", "subject": "History" },
+    { "name": "Dr. Williams", "subject": "Computer Science" }
+  ],
+  "rooms": ["Room 101", "Room 102"],
   "classDuration": 60,
-  "breaksDuration": 15,
-  "totalClassesPerDay": 5,
-  "roomDetails": [
-    {
-      "roomName": "Room 101",
-      "capacity": 30
-    },
-    {
-      "roomName": "Room 102",
-      "capacity": 25
-    },
-    {
-      "roomName": "Room 103",
-      "capacity": 20
-    }
-  ]
+  "totalClassesPerDay": 6
 }
+
+
+
+
+
+
+
+
+###
+
+POST http://localhost:5000/get-time-table
+Content-Type: application/json
+
+{
+  "collegeName": "XYZ College",
+  "branchName": "Computer Science",
+  "workingDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  "classTimes": ["9:00-10:00", "10:00-11:00", "11:00-12:00"],
+  "subjects": ["Mathematics", "Physics", "Chemistry"],
+  "teachers": [
+    { "name": "Dr. Smith", "subject": "Mathematics" },
+    { "name": "Prof. Johnson", "subject": "Physics" }
+  ],
+  "rooms": ["Room 101", "Room 102"],
+  "classDuration": 60,
+  "totalClassesPerDay": 6,
+  "breaksDuration": 15
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
 
 ###
 
