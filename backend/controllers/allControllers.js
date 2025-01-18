@@ -1014,8 +1014,7 @@ const generateTimeTableController = async (req, res) => {
     console.error('Error generating timetable:', error);
     return res.status(500).json({ error: error.message });
   }
-}; 
-
+} 
 
 // Fetch generated timetable
 const getResultTimeTableController = (req, res) => {
