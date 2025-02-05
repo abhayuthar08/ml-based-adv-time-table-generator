@@ -787,6 +787,121 @@ const addRoomVenue = async (req, res) => {
   }
 };
 
+//Generate timetable controller
+const generateTimeTableController = async (req, res) => {
+  console.log('Request Body:', req.body);
+
+  try {
+    const {
+      collegeName,
+      branchName,
+      workingDays,
+      classTimes,
+      totalClasses,
+      subjects,
+      teachers,
+      rooms,
+      totalClassesPerDay,
+    } = req.body;
+
+    if (!collegeName || !branchName) throw new Error('College name and Branch name are required.');
+    if (!workingDays || !classTimes || !subjects || !teachers || !rooms || !totalClasses) {
+      throw new Error('All input fields are required.');
+    }
+
+    const timetable = {};
+
+    totalClasses.forEach((className) => {
+      timetable[className] = {};
+      workingDays.forEach((day) => {
+        timetable[className][day] = [];
+      });
+    });
+
+    const getRandomItem = (list) => list[Math.floor(Math.random() * list.length)];
+
+    const checkConflictInClass = (className, day, timeSlot, teacherName, room) => {
+      const classTimetable = timetable[className][day];
+      return classTimetable.some(
+        (item) => item.teacher === teacherName && item.time === timeSlot
+      ) || classTimetable.some((item) => item.room === room && item.time === timeSlot);
+    };
+
+    const checkConflictBetweenClasses = (className, day, timeSlot, teacherName, room) => {
+      const otherClassName = totalClasses.filter((c) => c !== className)[0];
+      const otherClassTimetable = timetable[otherClassName][day];
+      return otherClassTimetable.some(
+        (item) => item.teacher === teacherName && item.time === timeSlot
+      ) || otherClassTimetable.some((item) => item.room === room && item.time === timeSlot);
+    };
+
+    const assignSlot = (className, day, timeSlot) => {
+      let subject, teacher, room;
+      let attempts = 0;
+      const maxAttempts = 10;
+
+      while (attempts < maxAttempts) {
+        subject = getRandomItem(subjects);
+        teacher = getRandomItem(teachers);
+        room = getRandomItem(rooms);
+
+        if (
+          !checkConflictInClass(className, day, timeSlot, teacher.name, room) &&
+          !checkConflictBetweenClasses(className, day, timeSlot, teacher.name, room)
+        ) {
+          return { subject, teacher, room };
+        }
+
+        attempts++;
+      }
+
+      throw new Error(`Failed to assign slot for ${className} on ${day} at ${timeSlot} after ${maxAttempts} attempts.`);
+    };
+
+    const optimizeTimetable = () => {
+      for (let day of workingDays) {
+        for (let className of totalClasses) {
+          const classTimetable = timetable[className][day];
+
+          for (let i = 0; i < totalClassesPerDay; i++) {
+            const timeSlot = classTimes[i % classTimes.length];
+
+            try {
+              const { subject, teacher, room } = assignSlot(className, day, timeSlot);
+              classTimetable.push({
+                subject: subject.name, // Add subject name here
+                teacher: teacher.name,
+                room,
+                time: timeSlot,
+              });
+            } catch (error) {
+              console.error(error.message);
+              return null;
+            }
+          }
+        }
+      }
+      return timetable;
+    };
+
+    const optimizedTimetable = optimizeTimetable();
+    if (!optimizedTimetable) {
+      return res.status(500).json({ error: 'Failed to generate conflict-free timetable.' });
+    }
+
+    generatedTimetable = optimizedTimetable;
+
+    return res.status(200).json({
+      message: 'Timetable generated successfully!',
+      timetable: optimizedTimetable,
+    });
+  } catch (error) {
+    console.error('Error generating timetable:', error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
 // Generate timetable controller
 // const generateTimeTableController = async (req, res) => {
 //   console.log('Request Body:', req.body);
@@ -869,7 +984,7 @@ const addRoomVenue = async (req, res) => {
 //             try {
 //               const { subject, teacher, room } = assignSlot(className, day, timeSlot);
 //               classTimetable.push({
-//                 subject: subject.name, // Add subject name here
+//                 subject,
 //                 teacher: teacher.name,
 //                 room,
 //                 time: timeSlot,
@@ -899,122 +1014,7 @@ const addRoomVenue = async (req, res) => {
 //     console.error('Error generating timetable:', error);
 //     return res.status(500).json({ error: error.message });
 //   }
-// };
-
-
-// Generate timetable controller
-const generateTimeTableController = async (req, res) => {
-  console.log('Request Body:', req.body);
-
-  try {
-    const {
-      collegeName,
-      branchName,
-      workingDays,
-      classTimes,
-      totalClasses,
-      subjects,
-      teachers,
-      rooms,
-      totalClassesPerDay,
-    } = req.body;
-
-    if (!collegeName || !branchName) throw new Error('College name and Branch name are required.');
-    if (!workingDays || !classTimes || !subjects || !teachers || !rooms || !totalClasses) {
-      throw new Error('All input fields are required.');
-    }
-
-    const timetable = {};
-
-    totalClasses.forEach((className) => {
-      timetable[className] = {};
-      workingDays.forEach((day) => {
-        timetable[className][day] = [];
-      });
-    });
-
-    const getRandomItem = (list) => list[Math.floor(Math.random() * list.length)];
-
-    const checkConflictInClass = (className, day, timeSlot, teacherName, room) => {
-      const classTimetable = timetable[className][day];
-      return classTimetable.some(
-        (item) => item.teacher === teacherName && item.time === timeSlot
-      ) || classTimetable.some((item) => item.room === room && item.time === timeSlot);
-    };
-
-    const checkConflictBetweenClasses = (className, day, timeSlot, teacherName, room) => {
-      const otherClassName = totalClasses.filter((c) => c !== className)[0];
-      const otherClassTimetable = timetable[otherClassName][day];
-      return otherClassTimetable.some(
-        (item) => item.teacher === teacherName && item.time === timeSlot
-      ) || otherClassTimetable.some((item) => item.room === room && item.time === timeSlot);
-    };
-
-    const assignSlot = (className, day, timeSlot) => {
-      let subject, teacher, room;
-      let attempts = 0;
-      const maxAttempts = 10;
-
-      while (attempts < maxAttempts) {
-        subject = getRandomItem(subjects);
-        teacher = getRandomItem(teachers);
-        room = getRandomItem(rooms);
-
-        if (
-          !checkConflictInClass(className, day, timeSlot, teacher.name, room) &&
-          !checkConflictBetweenClasses(className, day, timeSlot, teacher.name, room)
-        ) {
-          return { subject, teacher, room };
-        }
-
-        attempts++;
-      }
-
-      throw new Error(`Failed to assign slot for ${className} on ${day} at ${timeSlot} after ${maxAttempts} attempts.`);
-    };
-
-    const optimizeTimetable = () => {
-      for (let day of workingDays) {
-        for (let className of totalClasses) {
-          const classTimetable = timetable[className][day];
-
-          for (let i = 0; i < totalClassesPerDay; i++) {
-            const timeSlot = classTimes[i % classTimes.length];
-
-            try {
-              const { subject, teacher, room } = assignSlot(className, day, timeSlot);
-              classTimetable.push({
-                subject,
-                teacher: teacher.name,
-                room,
-                time: timeSlot,
-              });
-            } catch (error) {
-              console.error(error.message);
-              return null;
-            }
-          }
-        }
-      }
-      return timetable;
-    };
-
-    const optimizedTimetable = optimizeTimetable();
-    if (!optimizedTimetable) {
-      return res.status(500).json({ error: 'Failed to generate conflict-free timetable.' });
-    }
-
-    generatedTimetable = optimizedTimetable;
-
-    return res.status(200).json({
-      message: 'Timetable generated successfully!',
-      timetable: optimizedTimetable,
-    });
-  } catch (error) {
-    console.error('Error generating timetable:', error);
-    return res.status(500).json({ error: error.message });
-  }
-} 
+// } 
 
 // Fetch generated timetable
 const getResultTimeTableController = (req, res) => {
