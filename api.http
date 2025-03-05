@@ -262,16 +262,67 @@ Content-Type: application/json
   "collegeName": "XYZ College",
   "branchName": "Computer Science",
   "workingDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-  "classTimes": ["9:00-10:00", "10:00-11:00", "11:00-12:00"],
-  "subjects": ["Mathematics", "Physics", "Chemistry"],
+  "classTimes": ["9:00-10:00"],
+  # "subjects": ["Mathematics", "Physics", "Chemistry"],
+  "subjects": [],
   "teachers": [
     { "name": "Dr. Smith", "subject": "Mathematics" },
     { "name": "Prof. Johnson", "subject": "Physics" }
   ],
   "rooms": ["Room 101", "Room 102"],
   "classDuration": 60,
-  "totalClassesPerDay": 6,
-  "breaksDuration": 15
+  "totalClassesPerDay": 1,
+  # "breaksDuration": 15
+}
+
+###
+
+POST http://localhost:5000/generate-time-table
+Content-Type: application/json
+
+{
+  "collegeName": "XYZ College",
+  "branchName": "Computer Science",
+  "workingDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  "classTimes": ["9:00-10:00","10:00-11:00"],
+  "totalClasses": ["CS101","it1"],  
+  "subjects": [
+    { "name": "Mathematics" },
+    { "name": "Physics" },
+    { "name": "Chemistry" }
+  ],
+  "teachers": [
+    { "name": "Dr. Smith", "subject": "Mathematics" },
+    { "name": "Prof. Johnson", "subject": "Physics" }
+  ],
+  "rooms": ["Room 101", "Room 102"],
+  "classDuration": 60,
+  "totalClassesPerDay": 2
+}
+
+
+### Generate Timetable
+POST http://localhost:5000/generate-time-table
+Content-Type: application/json
+
+{
+  "collegeName": "XYZ College",
+  "branchName": "Computer Science",
+  "workingDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  "classTimes": ["9:00-10:00"],
+  "subjects": [
+    { "name": "Mathematics" },
+    { "name": "Physics" },
+    { "name": "Chemistry" }
+  ],
+  "teachers": [
+    { "name": "Dr. Smith", "subject": "Mathematics" },
+    { "name": "Prof. Johnson", "subject": "Physics" }
+  ],
+  "rooms": ["Room 101", "Room 102"],
+  "classDuration": 60,
+  "totalClassesPerDay": 1,
+  
 }
 
 
