@@ -231,13 +231,17 @@ const path = require("path"); // To serve React files
 
 // Import Controllers (Ensure paths are correct)
 const {
-  registerAdmin,
-  loginAdmin,
-  addSubject,
-  addRoomVenue,
+  // registerAdmin,
+  // loginAdmin,
+  // addSubject,
+  // addRoomVenue,
   generateTimeTableController,
   getResultTimeTableController,
 } = require("../controllers/allControllers.js"); // Ensure this file exports all functions correctly
+
+const {registerAdmin,
+  loginAdmin,
+  } = require("../controllers/adminController.js"); // Ensure this file exports all functions correctly
 
 const router = express.Router();
 
