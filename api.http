@@ -1,5 +1,92 @@
 ### Register Admin
+//working
 
+POST http://localhost:5000/generate-time-table
+Content-Type: application/json
+
+{
+  "collegeName": "ldrp",
+  "branchName": "cs",
+  "workingDays": ["Monday", "Tuesday", "Wednesday", "Friday", "Saturday"],
+  "classTimes": ["9-10", "10-11", "11-12"],
+  "totalClasses": ["cs1", "cs2"],
+  "subjects": [
+    {
+      "name": "maths",
+      "teachers": ["abhay", "anil", "dev"],
+      "weeklyClasses": 4
+    },
+    {
+      "name": "chem",
+      "teachers": ["dev", "devu", "iojeoi"],
+      "weeklyClasses": 4
+    },
+    {
+      "name": "phy",
+      "teachers": ["jnsfj", "woop", "hsuhs"],
+      "weeklyClasses": 3
+    },
+    {
+      "name": "ss",
+      "teachers": ["iqwwu", "vishal", "naylesh"],
+      "weeklyClasses": 3
+    },
+    {
+      "name": "eg",
+      "teachers": ["sjd", "wp"],
+      "weeklyClasses": 1
+    }
+  ],
+  "rooms": ["101", "102"],
+  "totalClassesPerDay": 3,
+  "labLocations": ["at1", "at2", "at3", "at4"],
+  "batches": ["Batch1", "Batch2", "Batch3"]
+}
+
+###
+###
+
+POST http://localhost:5000/generate-time-table
+Content-Type: application/json
+{
+  "collegeName": "ldrp",
+  "branchName": "cs",
+  "workingDays": ["Monday", "Tuesday", "Wednesday", "Friday", "Saturday"],
+  "classTimes": ["9-10", "10-11", "11-12"],
+  "totalClasses": ["cs1", "cs2"],
+  "subjects": [
+    {
+      "name": "maths",
+      "teachers": ["abhay", "anil", "dev"],
+      "weeklyClasses": 4
+    },
+    {
+      "name": "chem",
+      "teachers": ["dev", "devu", "iojeoi"],
+      "weeklyClasses": 4
+    },
+    {
+      "name": "phy",
+      "teachers": ["jnsfj", "woop", "hsuhs"],
+      "weeklyClasses": 3
+    },
+    {
+      "name": "ss",
+      "teachers": ["iqwwu", "vishal", "naylesh"],
+      "weeklyClasses": 3
+    },
+    {
+      "name": "eg",
+      "teachers": ["sjd", "wp"],
+      "weeklyClasses": 1
+    }
+  ],
+  "rooms": ["101", "102"],
+  "labLocations": ["at1", "at2", "at3", "at4"], // Corrected field name
+  "totalClassesPerDay": 3,
+  "batches": ["Batch1", "Batch2", "Batch3"] // Corrected field name
+}
+###
 POST http://localhost:5000/generate-time-table
 Content-Type: application/json
 
