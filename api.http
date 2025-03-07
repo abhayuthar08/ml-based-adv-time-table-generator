@@ -1,5 +1,5 @@
 ### Register Admin
-//working
+//working first
 
 POST http://localhost:5000/generate-time-table
 Content-Type: application/json
