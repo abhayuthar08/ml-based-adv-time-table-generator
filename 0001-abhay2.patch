@@ -1,0 +1,23 @@
+From d8e79a6448b9b87044a0db58efbad5a5172094d5 Mon Sep 17 00:00:00 2001
+From: Abhay Suthar <abhaysuthar6355@gmail.com>
+Date: Fri, 7 Mar 2025 12:12:51 +0530
+Subject: [PATCH] abhay2
+
+---
+ api.http | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/api.http b/api.http
+index 4f277f0..a00e89e 100644
+--- a/api.http
++++ b/api.http
+@@ -1,5 +1,5 @@
+ ### Register Admin
+-//working
++//working first
+ 
+ POST http://localhost:5000/generate-time-table
+ Content-Type: application/json
+-- 
+2.47.1.windows.2
+

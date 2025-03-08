@@ -1,4 +1,55 @@
 ### Register Admin
+
+POST http://localhost:5000/generate-time-table
+Content-Type: application/json
+
+{
+  "collegeName": "ldrp",
+  "branchName": "cs",
+  "labTimings": ["12-14"],
+  "workingDays": ["Monday", "Tuesday", "Wednesday", "Friday", "Saturday"],
+  "classTimes": ["9-10", "10-11", "11-12"],
+  "totalClasses": ["cs1", "cs2"],
+  "subjects": [
+    {
+      "name": "maths",
+      "teachers": ["abhay", "anil", "dev"],
+      "weeklyClasses": 4
+    },
+    {
+      "name": "chem",
+      "teachers": ["dev", "devu", "iojeoi"],
+      "weeklyClasses": 4
+    },
+    {
+      "name": "phy",
+      "teachers": ["jnsfj", "woop", "hsuhs"],
+      "weeklyClasses": 3
+    },
+    {
+      "name": "ss",
+      "teachers": ["iqwwu", "vishal", "naylesh"],
+      "weeklyClasses": 3
+    },
+    {
+      "name": "eg",
+      "teachers": ["sjd", "wp"],
+      "weeklyClasses": 1
+    },
+    {
+      "name": "ee",
+      "teachers": ["sjdfd", "wfbdp"],
+      "weeklyClasses": 1
+    }
+  ],
+  "rooms": ["101", "102"],
+  "totalClassesPerDay": 3,
+  "labLocations": ["at1", "at2", "at3", "at4","at7","q1","q2","q3","q4","q5"],
+  "batches": ["Batch1", "Batch2", "Batch3"]
+}
+###
+
+
 //working first
 
 POST http://localhost:5000/generate-time-table
@@ -7,6 +58,7 @@ Content-Type: application/json
 {
   "collegeName": "ldrp",
   "branchName": "cs",
+  "labTimes": ["12-14"],
   "workingDays": ["Monday", "Tuesday", "Wednesday", "Friday", "Saturday"],
   "classTimes": ["9-10", "10-11", "11-12"],
   "totalClasses": ["cs1", "cs2"],
@@ -39,6 +91,7 @@ Content-Type: application/json
   ],
   "rooms": ["101", "102"],
   "totalClassesPerDay": 3,
+  "totalLabsPerDay": 1, // Add this field
   "labLocations": ["at1", "at2", "at3", "at4"],
   "batches": ["Batch1", "Batch2", "Batch3"]
 }
