@@ -11,6 +11,8 @@ import Slides from './Slides';
 import Moving from './Moving';
 import Page3 from './Page3';
 import Footer from './Footer';
+import SearchTimetable from './SearchTimeTable';
+import Search from './Search';
 // import Three from './components/Three';
 
 
@@ -30,6 +32,8 @@ function HomePage() {
         <Navbar/>
         {/* <Three/> */}
         <Work/>
+
+        <Search/>
         
         <Slides/>
 

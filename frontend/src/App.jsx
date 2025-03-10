@@ -6,6 +6,9 @@ import Login from './components/Login';
 import About from './components/About';
 import Admin from './components/Admin';
 import ResultTimeTable from './components/ResultTimeTable.jsx';
+import SearchTimetable from './components/SearchTimeTable.jsx';
+import Logout from './components/Logout.jsx';
+
 
 function App() {
   return (
@@ -18,6 +21,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/as-admin" element={<Admin />} />
         <Route path="/result-time-table" element={<ResultTimeTable />} />
+        <Route path='/search-timetable' element={<SearchTimetable />} />
+        <Route path='/logout' element={<Logout />} />
         
       </Routes>
     </Router>
