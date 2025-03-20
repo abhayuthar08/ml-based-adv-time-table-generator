@@ -1,5 +1,4 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+
 
 
 const bcrypt = require('bcryptjs');
@@ -34,26 +33,6 @@ const registerAdmin = async (req, res) => {
 };
 
 
-export const searchTimetableController = async (req, res) => {
-  const { collegeName, branchName, className } = req.query;
-
-  try {
-    const timetable = await TimetableModel.findOne({
-      collegeName,
-      branchName,
-      [`timetable.${className}`]: { $exists: true },
-    });
-
-    if (!timetable) {
-      return res.status(404).json({ error: "❌ Timetable not found." });
-    }
-
-    return res.status(200).json({ timetable });
-  } catch (error) {
-    console.error("❌ Error searching timetable:", error);
-    return res.status(500).json({ error: "❌ Internal server error." });
-  }
-};
 
 // ** Login Admin **
 const loginAdmin = async (req, res) => {
@@ -93,8 +72,8 @@ const logoutAdmin = async (req, res) => {
 
 
 
-// module.exports = {
-//   registerAdmin,
-//   loginAdmin,
-//   logoutAdmin,
-// };
+module.exports = {
+  registerAdmin,
+  loginAdmin,
+  logoutAdmin,
+};
