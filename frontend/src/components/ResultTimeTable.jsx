@@ -2275,6 +2275,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
+// import html2canvas from 'html2canvas';
 import jsPDF from "jspdf";
 import { FaFilePdf, FaDownload } from "react-icons/fa"; // Icons for PDF and download
 
