@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/generate-time-table" element={<GenerateTimetable />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
