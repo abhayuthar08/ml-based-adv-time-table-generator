@@ -10,7 +10,7 @@ const dotenv = require('dotenv');
 const path = require('path'); // To serve React files
 
 // Load environment variables from .env file
-dotenv.config({ path: path.resolve(__dirname, '../.env') }); // Specify path to .env outside the 'backend' folder
+dotenv.config({ path: path.resolve(__dirname, './.env') }); // Specify path to .env outside the 'backend' folder
 
 // Import routes for your API
 const adminRoutes = require('./routes/adminRoutes.js');
