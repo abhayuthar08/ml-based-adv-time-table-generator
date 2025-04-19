@@ -1,4 +1,6 @@
 
+
+
 // Importing necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
@@ -7,14 +9,13 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const path = require('path'); // To serve React files
 
+// Load environment variables from .env file
+dotenv.config({ path: path.resolve(__dirname, '../.env') }); // Specify path to .env outside the 'backend' folder
+
 // Import routes for your API
 const adminRoutes = require('./routes/adminRoutes.js');
 // const teacherRoutes = require('./routes/teacherRoutes.js');
 // const mixedRoutes = require('./routes/mixedRoutes.js');
-
-// Load environment variables from .env file
-dotenv.config();
-
 
 // Initialize the express application
 const app = express();
@@ -36,8 +37,13 @@ app.use(cors(corsOptions));  // Apply CORS settings
 app.use(bodyParser.json()); // Middleware to parse JSON requests
 
 // MongoDB connection setup
-const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/schedulifyX'; // Default to local DB if not set in .env
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+const mongoURI = process.env.MONGO_URI;
+console.log('Mongo URI:', mongoURI); // Log to ensure the URI is being loaded correctly
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => {
     console.log('MongoDB connected successfully!');
   })
@@ -71,9 +77,9 @@ app.get('/api', (req, res) => {
 });
 
 // Port setup
-const PORT = process.env.PORT || 5000;
+const FINAL = process.env.PORT || 5000;
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(FINAL, () => {
+  console.log(`Server running on port ${FINAL}`);
 });
