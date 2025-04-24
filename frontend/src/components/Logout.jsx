@@ -10,7 +10,7 @@ const Logout = () => {
     sessionStorage.clear(); // Example: Clear session storage
 
     // Redirect to Home page
-    navigate("/home");
+    navigate("/");
   }, [navigate]);
 
   return null; // No UI needed, it just redirects

@@ -344,11 +344,12 @@ function Navbar() {
         </div>
 
         {/* Navigation Links */}
-        <div className="links flex items-center gap-14 ml-20">
+        <div className="links flex items-center gap-12 ml-20">
           {[
             "Home",
-            "As Admin",
+            "As_Admin",
             "About",
+            "About_Us",
             "",
             isLoggedIn ? "Logout" : "Login",
             isLoggedIn ? "" : "Register",
