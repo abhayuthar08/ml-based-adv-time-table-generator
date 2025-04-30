@@ -1,23 +1,3 @@
-// import React from "react";
-// import { IoIosReturnRight } from "react-icons/io";
-
-
-// function Button({title='Get Started'}) {
-//   return (
-//     <div className="min-w-40 justify-between px-4  flex py-1.45 h-[1.8vw] items-center justify-center  bg-zinc-100 text-black rounded-full">
-//         <span className="text-sm font-medium">{title}</span>
-//         <IoIosReturnRight/>
-   
-//     </div>
-//   );
-// }
-
-// export default Button;
-
-
-
-
-
 import React from "react";
 import { motion } from "framer-motion";
 
