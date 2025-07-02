@@ -3,9 +3,11 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const Admin = require('../models/admin.model.js');
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecretkey';
+
+
 
 // ** Register a new admin **
 const registerAdmin = async (req, res) => {

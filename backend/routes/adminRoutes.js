@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path"); // To serve React files
 const router = express.Router();
 
-// ✅ Import Controllers
 const {
   generateTimeTableController,
   getResultTimeTableController,
@@ -11,11 +10,10 @@ const {
 const {
   registerAdmin,
   loginAdmin,
-  logoutAdmin,
-  addSubject,
-  addRoomVenue,
-  searchTimetableController,
+  logoutAdmin
 } = require("../controllers/adminController.js");
+
+// const { verifyToken, isLoggedIn } = require("../middlewares.cjs");
 
 // ✅ Helper Function to Handle Async Errors
 const asyncHandler = (fn) => (req, res, next) => {
@@ -29,13 +27,6 @@ const asyncHandler = (fn) => (req, res, next) => {
 router.post("/register", asyncHandler(registerAdmin));
 router.post("/login", asyncHandler(loginAdmin));
 router.post("/logout", asyncHandler(logoutAdmin));
-
-// ✅ Subject Management
-router.post("/add-subject", asyncHandler(addSubject));
-router.get("/search-timetable", asyncHandler(searchTimetableController));
-
-// ✅ Room Management
-router.post("/add-room-venue", asyncHandler(addRoomVenue));
 
 // ✅ Timetable Routes
 router.post("/generate-time-table", asyncHandler(generateTimeTableController));

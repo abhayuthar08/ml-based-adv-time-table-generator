@@ -2,10 +2,26 @@ const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const isLoggedIn = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-/**
- * Middleware to verify JWT token for protected routes.
- */
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded; // Attach decoded info to req object
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Invalid or expired token. Please login again.' });
+  }
+};
+
+
+
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -59,5 +75,5 @@ module.exports = {
   verifyToken,
   errorHandler,
   validateRequest,
-  logger,
+  logger,isLoggedIn
 };

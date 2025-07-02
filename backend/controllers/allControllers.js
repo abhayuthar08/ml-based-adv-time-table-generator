@@ -2,22 +2,15 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
 const Timetable = require("../models/timetable.model");
-const timetableService = require("../services/timetableService");
-const mlService = require("../services/mlService");
 
 import express from 'express';
 import bodyParser from 'body-parser';
 
 const app = express();
 
-// Middleware to parse JSON request bodies
 app.use(bodyParser.json());
 
-// Temporary in-memory store for generated timetable
 let generatedTimetable = {};
-
-
-
 
 export const generateTimeTableController = async (req, res) => {
   console.log("📩 Received Request Data:", JSON.stringify(req.body, null, 2));

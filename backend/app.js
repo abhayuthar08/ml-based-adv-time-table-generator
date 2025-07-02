@@ -3,38 +3,51 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const path = require('path'); // To serve React files
+const path = require('path');
 
-// Load environment variables from .env file
-dotenv.config({ path: path.resolve(__dirname, './.env') }); // Specify path to .env outside the 'backend' folder
 
-// Import routes for your API
+dotenv.config({ path: path.resolve(__dirname, './.env') }); 
+
 const adminRoutes = require('./routes/adminRoutes.js');
-// const teacherRoutes = require('./routes/teacherRoutes.js');
-// const mixedRoutes = require('./routes/mixedRoutes.js');
 
-// Initialize the express application
 const app = express();
 
-// Middleware to parse JSON requests
 app.use(express.json());
 
-// Middleware to parse URL-encoded data (if needed)
 app.use(express.urlencoded({ extended: true }));
 
-// CORS configuration
+// const corsOptions = {
+//   origin: 'http://localhost:5173',
+//   credentials: true,
+// };
+// app.use(cors(corsOptions));
+
+// const cors = require('cors');
+
+const allowedOrigins = [
+  'http://localhost:5173', // local dev
+  'https://ml-based-adv-time-table-generator-111.onrender.com/', // ✅ replace with actual frontend deploy domain
+];
+
 const corsOptions = {
-  origin: 'http://localhost:5173', // Replace with your frontend URL
-  credentials: true,  // Allow cookies to be sent from the frontend
+  origin: function (origin, callback) {
+    // allow requests with no origin (like curl/postman) or from allowed origins
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 };
-app.use(cors(corsOptions));  // Apply CORS settings
 
-// Middleware setup
-app.use(bodyParser.json()); // Middleware to parse JSON requests
+app.use(cors(corsOptions));
 
-// MongoDB connection setup
+
+app.use(bodyParser.json());
+
 const mongoURI = process.env.MONGO_URI;
-console.log('Mongo URI:', mongoURI); // Log to ensure the URI is being loaded correctly
+console.log('Mongo URI:', mongoURI); 
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
@@ -52,27 +65,21 @@ if (process.env.NODE_ENV === 'production') {
   // In production mode, serve the build directory from React
   app.use(express.static(path.join(__dirname, 'frontend/build')));
 
-  // For any request that doesn't match an API route, serve the React app
+  
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
   });
 } else {
-  // In development, Vite handles serving the React app, so we don't serve it here
-  // Just send a simple message if someone accesses the root endpoint
+
   app.get('*', (req, res) => {
     res.send('React app is not available in development mode. Please run `npm run build` first.');
   });
 }
 
-// Import and use API routes for admin, teacher, etc.
-app.use('/', adminRoutes); // Make sure '/api' matches the route structure
 
-// Example route for the homepage (can be customized)
-app.get('/api', (req, res) => {
-  res.send('Welcome to the SchedulifyX API - Timetable Generator');
-});
+app.use('/', adminRoutes);
 
-// Port setup
+
 const FINAL = process.env.PORT || 5000;
 
 // Start the server
