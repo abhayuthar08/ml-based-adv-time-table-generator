@@ -2566,7 +2566,6 @@
 // };
 
 // export default ResultTimeTable;
-
 import React from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -2574,6 +2573,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { FaFilePdf, FaDownload } from "react-icons/fa";
 
+// Styled Components (unchanged)
 const Container = styled.div`
   padding: 40px;
   background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
@@ -2696,6 +2696,7 @@ const LabLocation = styled.span`
 `;
 
 const DownloadButton = styled.button`
+  margin-bottom: 5px;
   background-color: #4caf50;
   color: white;
   padding: 12px 25px;
@@ -2725,17 +2726,40 @@ const ResultTimeTable = () => {
   const {
     timetable = {},
     workingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    classTimes = ["9-10", "10-11", "11-12"],
-    labTimings = ["16-18"],
-    classRoomAssignment = { cs1: "101", cs2: "102", cs3: "103" },
+    classTimes = ["9:00 AM - 10:00 AM", "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM"],
+    labTimings = ["2:00 PM - 4:00 PM"],
+    classRoomAssignment = {},
   } = location.state || {};
 
   if (!timetable || Object.keys(timetable).length === 0) {
-    return <NoDataMessage>No timetable data found.</NoDataMessage>;
+    return (
+      <Container>
+        <NoDataMessage>No timetable data found.</NoDataMessage>
+      </Container>
+    );
   }
 
-  const classNames = Object.keys(timetable);
+  // Format time slot with AM/PM
+  const formatTimeSlot = (timeString) => {
+    if (!timeString) return "";
+    
+    // If already formatted, return as is
+    if (timeString.includes("AM") || timeString.includes("PM")) {
+      return timeString;
+    }
+    
+    // Format simple time strings (e.g., "9-10")
+    if (timeString.includes("-")) {
+      const [start, end] = timeString.split("-").map(Number);
+      const startPeriod = start < 12 ? "AM" : "PM";
+      const endPeriod = end < 12 ? "AM" : "PM";
+      return `${start % 12 || 12}:00 ${startPeriod} - ${end % 12 || 12}:00 ${endPeriod}`;
+    }
+    
+    return timeString;
+  };
 
+  // Handle PDF download
   const handleDownloadPDF = () => {
     const input = document.getElementById("timetable-container");
 
@@ -2766,6 +2790,8 @@ const ResultTimeTable = () => {
     });
   };
 
+  const classNames = Object.keys(timetable);
+
   return (
     <Container>
       <Title>Generated Timetable</Title>
@@ -2782,11 +2808,14 @@ const ResultTimeTable = () => {
       <div id="timetable-container">
         {classNames.map((className, classIndex) => {
           const classData = timetable[className];
+          const classRoom = classRoomAssignment[className] || 
+                          classData?.room || 
+                          `Room ${classIndex + 101}`;
 
           return (
             <TableContainer key={classIndex}>
               <SubTitle>{className} - Timetable</SubTitle>
-              <RoomInfo>📌 Class Room: {classRoomAssignment[className] || "Not Assigned"}</RoomInfo>
+              <RoomInfo>📌 Class Room: {classRoom}</RoomInfo>
               <Table>
                 <thead>
                   <tr>
@@ -2797,66 +2826,73 @@ const ResultTimeTable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {classTimes.map((time, timeIndex) => (
-                    <tr key={timeIndex}>
-                      <Td>{time}</Td>
-                      {workingDays.map((day, dayIndex) => {
-                        const dayClasses = classData?.[day]?.classes || [];
-                        const matchedClass = dayClasses.find((cls) => cls.time === time);
+                  {classTimes.map((timeSlot, timeIndex) => {
+                    const formattedTime = formatTimeSlot(timeSlot);
+                    return (
+                      <tr key={timeIndex}>
+                        <Td>{formattedTime}</Td>
+                        {workingDays.map((day, dayIndex) => {
+                          const dayClasses = classData?.[day]?.classes || [];
+                          const matchedClass = dayClasses.find((cls) => 
+                            cls.time === timeSlot || 
+                            cls.time === formattedTime
+                          );
 
-                        let subjectToShow = matchedClass
-                          ? matchedClass
-                          : dayClasses.find((cls) => cls.time !== time);
+                          return (
+                            <Td key={dayIndex}>
+                              {matchedClass ? (
+                                <>
+                                  <strong>Subject: {matchedClass.subject}</strong> <br />
+                                  <span>👨‍🏫 {matchedClass.teacher}</span> <br />
+                                  {/* {matchedClass.room && (
+                                    // <span>🏫 Room: {matchedClass.room}</span>
+                                  )} */}
+                                </>
+                              ) : (
+                                "No Class"
+                              )}
+                            </Td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+
+                  {labTimings.length > 0 && (
+                    <tr>
+                      <Td>
+                        <strong>Lab - {formatTimeSlot(labTimings[0])}</strong>
+                      </Td>
+                      {workingDays.map((day, dayIndex) => {
+                        const labData = classData?.[day]?.lab;
+                        const slots = Array.isArray(labData?.slots) ? labData.slots : [];
 
                         return (
                           <Td key={dayIndex}>
-                            {subjectToShow ? (
-                              <>
-                                <strong>Subject: {subjectToShow.subject}</strong> <br />
-                                <span>👨‍🏫 {subjectToShow.teacher}</span>
-                              </>
+                            {slots.length > 0 ? (
+                              <LabSlot>
+                                {slots.map((labSlot, labIndex) => (
+                                  <React.Fragment key={labIndex}>
+                                    <div>
+                                      <span>Batch: {labSlot.batch}</span> <br />
+                                      <span>Subject: {labSlot.subject}</span> <br />
+                                      <span>👨‍🏫 {labSlot.teacher}</span> <br />
+                                      <span>
+                                        🏫 <LabLocation>{labSlot.lab}</LabLocation>
+                                      </span>
+                                    </div>
+                                    {labIndex < slots.length - 1 && <BatchDivider />}
+                                  </React.Fragment>
+                                ))}
+                              </LabSlot>
                             ) : (
-                              "No Class"
+                              "No Lab"
                             )}
                           </Td>
                         );
                       })}
                     </tr>
-                  ))}
-
-                  <tr>
-                    <Td>
-                      <strong>Lab - {labTimings[0]}</strong>
-                    </Td>
-                    {workingDays.map((day, dayIndex) => {
-                      const labData = classData?.[day]?.lab;
-                      const slots = Array.isArray(labData?.slots) ? labData.slots : [];
-
-                      return (
-                        <Td key={dayIndex}>
-                          {slots.length > 0 ? (
-                            <LabSlot>
-                              {slots.map((labSlot, labIndex) => (
-                                <React.Fragment key={labIndex}>
-                                  <div>
-                                    <span>Batch: {labSlot.batch}</span> <br />
-                                    <span>Subject: {labSlot.subject}</span> <br />
-                                    <span>👨‍🏫 {labSlot.teacher}</span> <br />
-                                    <span>
-                                      🏫 <LabLocation>{labSlot.lab}</LabLocation>
-                                    </span>
-                                  </div>
-                                  {labIndex < slots.length - 1 && <BatchDivider />}
-                                </React.Fragment>
-                              ))}
-                            </LabSlot>
-                          ) : (
-                            "No Lab"
-                          )}
-                        </Td>
-                      );
-                    })}
-                  </tr>
+                  )}
                 </tbody>
               </Table>
             </TableContainer>

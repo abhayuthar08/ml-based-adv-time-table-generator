@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -138,7 +137,7 @@ const Td = styled.td`
   border: 1px solid #dfe6e9;
   padding: 10px;
   font-size: 0.95rem;
-  background-color: ${props => props.highlight ? '#e3f2fd' : '#fff'};
+  background-color: ${props => props.$highlight ? '#e3f2fd' : '#fff'};
   transition: all 0.2s ease;
   font-family: "Poppins", sans-serif;
   &:hover {
@@ -363,10 +362,10 @@ const SearchTimetable = () => {
   const renderTimetable = () => {
     if (!timetable) return null;
 
-    const workingDays = timetable.metadata?.workingDays || ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-    const classTimes = timetable.metadata?.classTimes || ["9:00-10:00", "10:00-11:00", "11:00-12:00"];
-    const labTimings = timetable.metadata?.labTimings || ["14:00-16:00"];
-    const rooms = timetable.metadata?.rooms || ["101", "102", "103"];
+    const workingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const classTimes = ["9-10", "10-11", "11-12"];
+    const labTime = "16-18";
+    const room = "101";
 
     return (
       <div id="timetable-container">
@@ -386,17 +385,13 @@ const SearchTimetable = () => {
 
           {Object.keys(timetable.timetable || {}).map((classKey, classIndex) => {
             const classData = timetable.timetable[classKey];
-            const roomAssignment = timetable.metadata?.classRoomAssignment?.[classKey] || 
-                                 rooms[classIndex % rooms.length];
 
             return (
               <div key={classIndex} style={{ marginBottom: '30px' }}>
-                {timetable.metadata?.className && (
-                  <RoomInfo>
-                    <span>🏛️ Class: {classKey}</span>
-                    <span>🚪 Room: {roomAssignment}</span>
-                  </RoomInfo>
-                )}
+                <RoomInfo>
+                  <span>🏛️ Class: {classKey}</span>
+                  <span>🚪 Room: {room}</span>
+                </RoomInfo>
                 
                 <Table>
                   <thead>
@@ -410,25 +405,18 @@ const SearchTimetable = () => {
                   <tbody>
                     {classTimes.map((time, timeIndex) => (
                       <tr key={timeIndex}>
-                        <Td highlight={timeIndex % 2 === 0}>{time}</Td>
+                        <Td $highlight={timeIndex % 2 === 0}>{time.replace("-", " - ")}</Td>
                         {workingDays.map((day, dayIndex) => {
-                          const dayKey = day.toLowerCase();
-                          const daySchedule = classData?.[dayKey] || {};
+                          const daySchedule = classData?.[day] || {};
                           const classSlot = daySchedule.classes?.find(cls => cls.time === time);
 
                           return (
-                            <Td key={dayIndex} highlight={timeIndex % 2 === 0}>
+                            <Td key={dayIndex} $highlight={timeIndex % 2 === 0}>
                               {classSlot ? (
                                 <>
-                                  <strong>{classSlot.subject || "Not Assigned"}</strong>
+                                  <strong>Subject: {classSlot.subject || "Not Assigned"}</strong>
                                   <br />
                                   <span>👨‍🏫 {classSlot.teacher || "Staff"}</span>
-                                  {classSlot.room && (
-                                    <>
-                                      <br />
-                                      <span>🏫 {classSlot.room}</span>
-                                    </>
-                                  )}
                                 </>
                               ) : (
                                 "No Class"
@@ -439,47 +427,38 @@ const SearchTimetable = () => {
                       </tr>
                     ))}
 
-                    {labTimings.map((labTime, labIndex) => (
-                      <tr key={`lab-${labIndex}`}>
-                        <Td>🔬 Lab: {labTime}</Td>
-                        {workingDays.map((day, dayIndex) => {
-                          const dayKey = day.toLowerCase();
-                          const labSlot = classData?.[dayKey]?.lab;
+                    <tr>
+                      <Td>🔬 Lab: {labTime.replace("-", " - ")}</Td>
+                      {workingDays.map((day, dayIndex) => {
+                        const daySchedule = classData?.[day] || {};
+                        const labSlots = daySchedule.lab?.slots || [];
 
-                          return (
-                            <Td key={dayIndex}>
-                              {labSlot ? (
-                                <LabSlot>
-                                  {labSlot.subject && (
-                                    <>
-                                      <strong>{labSlot.subject}</strong>
+                        return (
+                          <Td key={dayIndex}>
+                            {labSlots.length > 0 ? (
+                              <LabSlot>
+                                {labSlots.map((slot, slotIndex) => (
+                                  <React.Fragment key={slotIndex}>
+                                    {slotIndex > 0 && <BatchDivider />}
+                                    <div>
+                                      <span>Batch: {slot.batch}</span>
                                       <br />
-                                    </>
-                                  )}
-                                  {labSlot.teacher && (
-                                    <>
-                                      <span>👨‍🏫 {labSlot.teacher}</span>
+                                      <strong>Subject: {slot.subject}</strong>
                                       <br />
-                                    </>
-                                  )}
-                                  {labSlot.labLocation && (
-                                    <>
-                                      <span>📍 <LabLocation>{labSlot.labLocation}</LabLocation></span>
+                                      <span>👨‍🏫 {slot.teacher}</span>
                                       <br />
-                                    </>
-                                  )}
-                                  {labSlot.batch && (
-                                    <span>👥 Batch: {labSlot.batch}</span>
-                                  )}
-                                </LabSlot>
-                              ) : (
-                                "No Lab"
-                              )}
-                            </Td>
-                          );
-                        })}
-                      </tr>
-                    ))}
+                                      <span>📍 {slot.lab}</span>
+                                    </div>
+                                  </React.Fragment>
+                                ))}
+                              </LabSlot>
+                            ) : (
+                              "No Lab"
+                            )}
+                          </Td>
+                        );
+                      })}
+                    </tr>
                   </tbody>
                 </Table>
               </div>
