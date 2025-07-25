@@ -33,18 +33,18 @@ mongoose.connect(mongoURI, {
   .then(() => console.log('MongoDB connected successfully!'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
-// Serve React static files in production mode
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'frontend/build')));
+// // Serve React static files in production mode
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, 'frontend/build')));
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
-  });
-} else {
-  app.get('*', (req, res) => {
-    res.send('React app is not available in development mode. Please run `npm run build` first.');
-  });
-}
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+//   });
+// } else {
+//   app.get('*', (req, res) => {
+//     res.send('React app is not available in development mode. Please run `npm run build` first.');
+//   });
+// }
 
 app.use('/', adminRoutes);
 

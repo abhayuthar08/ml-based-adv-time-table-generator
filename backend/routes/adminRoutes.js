@@ -33,19 +33,19 @@ router.post("/generate-time-table", asyncHandler(generateTimeTableController));
 router.get("/result-time-table", asyncHandler(getResultTimeTableController));
 
 // ✅ Serve React Frontend Based on Environment
-if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.resolve(__dirname, "../frontend/dist");
+// if (process.env.NODE_ENV === "production") {
+//   const frontendPath = path.resolve(__dirname, "../frontend/dist");
 
-  router.use(express.static(frontendPath));
+//   router.use(express.static(frontendPath));
 
-  router.get("*", (req, res) => {
-    res.sendFile(path.join(frontendPath, "index.html"));
-  });
-} else {
-  router.get("*", (req, res) => {
-    res.status(200).send("⚡ React app running in development mode via Vite.");
-  });
-}
+//   router.get("*", (req, res) => {
+//     res.sendFile(path.join(frontendPath, "index.html"));
+//   });
+// } else {
+//   router.get("*", (req, res) => {
+//     res.status(200).send("⚡ React app running in development mode via Vite.");
+//   });
+// }
 
 // ✅ Export Router
 module.exports = router;

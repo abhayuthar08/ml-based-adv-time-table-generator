@@ -38,6 +38,10 @@
       type: Map,
       of: [dayScheduleSchema]
     },
+    teacherTimetables: {
+      type: Map,
+      of: Object
+    },
     classRoomAssignment: { type: Map, of: String },
     metadata: {
       generatedAt: { type: Date, default: Date.now },
