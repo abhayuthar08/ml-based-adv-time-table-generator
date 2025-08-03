@@ -1,1351 +1,18 @@
-// // import React from "react";
-// // import { useLocation } from "react-router-dom";
-// // import styled from "styled-components";
-// // import html2canvas from "html2canvas";
-// // import jsPDF from "jspdf";
-// // import { FaFilePdf, FaDownload } from "react-icons/fa";
-
-// // // Styled Components (unchanged)
-// // const Container = styled.div`
-// //   padding: 40px;
-// //   background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-// //   min-height: 100vh;
-// //   display: flex;
-// //   justify-content: center;
-// //   align-items: center;
-// //   flex-direction: column;
-// // `;
-
-// // const Title = styled.h1`
-// //   color: #fff;
-// //   font-size: 2.5rem;
-// //   text-align: center;
-// //   margin-bottom: 30px;
-// //   font-family: "Poppins", sans-serif;
-// //   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-// // `;
-
-// // const TableContainer = styled.div`
-// //   background-color: rgba(255, 255, 255, 0.95);
-// //   padding: 25px;
-// //   border-radius: 15px;
-// //   width: 100%;
-// //   max-width: 1200px;
-// //   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-// //   margin-bottom: 30px;
-// //   overflow-x: auto;
-// // `;
-
-// // const SubTitle = styled.h2`
-// //   text-align: center;
-// //   color: white;
-// //   background-color: #ff785a;
-// //   padding: 12px;
-// //   border-radius: 10px;
-// //   font-size: 1.5rem;
-// //   font-weight: bold;
-// //   margin-bottom: 20px;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const RoomInfo = styled.p`
-// //   text-align: center;
-// //   font-size: 1.2rem;
-// //   font-weight: bold;
-// //   color: #2c3e50;
-// //   margin-bottom: 20px;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const Table = styled.table`
-// //   width: 100%;
-// //   border-collapse: collapse;
-// //   text-align: center;
-// //   background-color: white;
-// //   border-radius: 10px;
-// //   overflow: hidden;
-// //   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-// // `;
-
-// // const Th = styled.th`
-// //   background-color: #ff785a;
-// //   color: white;
-// //   font-size: 1.1rem;
-// //   padding: 15px;
-// //   border: 1px solid #ddd;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const Td = styled.td`
-// //   border: 1px solid #ddd;
-// //   padding: 12px;
-// //   font-size: 1rem;
-// //   font-weight: bold;
-// //   background-color: #fffaf2;
-// //   transition: all 0.3s ease-in-out;
-// //   font-family: "Poppins", sans-serif;
-// //   &:hover {
-// //     background-color: #ffdac1;
-// //     transform: scale(1.02);
-// //   }
-// // `;
-
-// // const TimeColumn = styled.th`
-// //   background-color: #add8e6;
-// //   color: black;
-// //   font-size: 1.1rem;
-// //   padding: 15px;
-// //   border: 1px solid #ddd;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const LabSlot = styled.div`
-// //   background-color: #e6f7ff;
-// //   padding: 10px;
-// //   border-radius: 5px;
-// //   margin: 5px 0;
-// //   text-align: center;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const BatchDivider = styled.div`
-// //   border-bottom: 1px solid #ccc;
-// //   margin: 8px 0;
-// // `;
-
-// // const NoDataMessage = styled.p`
-// //   text-align: center;
-// //   font-size: 1.5rem;
-// //   color: red;
-// //   margin-top: 20px;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const LabLocation = styled.span`
-// //   font-weight: bold;
-// //   color: #2c3e50;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const DownloadButton = styled.button`
-// //   margin-bottom: 5px;
-// //   background-color: #4caf50;
-// //   color: white;
-// //   padding: 12px 25px;
-// //   border: none;
-// //   border-radius: 8px;
-// //   font-size: 1rem;
-// //   cursor: pointer;
-// //   margin-top: 20px;
-// //   display: flex;
-// //   align-items: center;
-// //   gap: 10px;
-// //   font-family: "Poppins", sans-serif;
-// //   transition: background-color 0.3s ease;
-// //   &:hover {
-// //     background-color: #45a049;
-// //     transform: translateY(-2px);
-// //     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-// //   }
-// // `;
-
-// // const IconWrapper = styled.span`
-// //   font-size: 1.2rem;
-// // `;
-
-// // const ResultTimeTable = () => {
-// //   const location = useLocation();
-// //   const {
-// //     timetable = {},
-// //     workingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-// //     classTimes = ["9:00 AM - 10:00 AM", "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM"],
-// //     labTimings = ["2:00 PM - 4:00 PM"],
-// //     classRoomAssignment = {},
-// //   } = location.state || {};
-
-// //   if (!timetable || Object.keys(timetable).length === 0) {
-// //     return (
-// //       <Container>
-// //         <NoDataMessage>No timetable data found.</NoDataMessage>
-// //       </Container>
-// //     );
-// //   }
-
-// //   // Format time slot with AM/PM
-// //   const formatTimeSlot = (timeString) => {
-// //     if (!timeString) return "";
-    
-// //     // If already formatted, return as is
-// //     if (timeString.includes("AM") || timeString.includes("PM")) {
-// //       return timeString;
-// //     }
-    
-// //     // Format simple time strings (e.g., "9-10")
-// //     if (timeString.includes("-")) {
-// //       const [start, end] = timeString.split("-").map(Number);
-// //       const startPeriod = start < 12 ? "AM" : "PM";
-// //       const endPeriod = end < 12 ? "AM" : "PM";
-// //       return `${start % 12 || 12}:00 ${startPeriod} - ${end % 12 || 12}:00 ${endPeriod}`;
-// //     }
-    
-// //     return timeString;
-// //   };
-
-// //   // Handle PDF download
-// //   const handleDownloadPDF = () => {
-// //     const input = document.getElementById("timetable-container");
-
-// //     html2canvas(input, { scale: 3 }).then((canvas) => {
-// //       const imgData = canvas.toDataURL("image/png");
-// //       const pdf = new jsPDF("p", "mm", "a4");
-
-// //       const pageWidth = 210;
-// //       const pageHeight = 297;
-
-// //       const imgWidth = pageWidth;
-// //       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-// //       let heightLeft = imgHeight;
-// //       let position = 0;
-
-// //       pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-// //       heightLeft -= pageHeight;
-
-// //       while (heightLeft > 0) {
-// //         position = heightLeft - imgHeight;
-// //         pdf.addPage();
-// //         pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-// //         heightLeft -= pageHeight;
-// //       }
-
-// //       pdf.save("timetable.pdf");
-// //     });
-// //   };
-
-// //   const classNames = Object.keys(timetable);
-
-// //   return (
-// //     <Container>
-// //       <Title>Generated Timetable</Title>
-// //       <DownloadButton onClick={handleDownloadPDF}>
-// //         <IconWrapper>
-// //           <FaFilePdf />
-// //         </IconWrapper>
-// //         Download as PDF
-// //         <IconWrapper>
-// //           <FaDownload />
-// //         </IconWrapper>
-// //       </DownloadButton>
-
-// //       <div id="timetable-container">
-// //         {classNames.map((className, classIndex) => {
-// //           const classData = timetable[className];
-// //           const classRoom = classRoomAssignment[className] || 
-// //                           classData?.room || 
-// //                           `Room ${classIndex + 101}`;
-
-// //           return (
-// //             <TableContainer key={classIndex}>
-// //               <SubTitle>{className} - Timetable</SubTitle>
-// //               <RoomInfo>📌 Class Room: {classRoom}</RoomInfo>
-// //               <Table>
-// //                 <thead>
-// //                   <tr>
-// //                     <TimeColumn>Time</TimeColumn>
-// //                     {workingDays.map((day, index) => (
-// //                       <Th key={index}>{day}</Th>
-// //                     ))}
-// //                   </tr>
-// //                 </thead>
-// //                 <tbody>
-// //                   {classTimes.map((timeSlot, timeIndex) => {
-// //                     const formattedTime = formatTimeSlot(timeSlot);
-// //                     return (
-// //                       <tr key={timeIndex}>
-// //                         <Td>{formattedTime}</Td>
-// //                         {workingDays.map((day, dayIndex) => {
-// //                           const dayClasses = classData?.[day]?.classes || [];
-// //                           const matchedClass = dayClasses.find((cls) => 
-// //                             cls.time === timeSlot || 
-// //                             cls.time === formattedTime
-// //                           );
-
-// //                           return (
-// //                             <Td key={dayIndex}>
-// //                               {matchedClass ? (
-// //                                 <>
-// //                                   <strong>Subject: {matchedClass.subject}</strong> <br />
-// //                                   <span>👨‍🏫 {matchedClass.teacher}</span> <br />
-// //                                   {/* {matchedClass.room && (
-// //                                     // <span>🏫 Room: {matchedClass.room}</span>
-// //                                   )} */}
-// //                                 </>
-// //                               ) : (
-// //                                 "No Class"
-// //                               )}
-// //                             </Td>
-// //                           );
-// //                         })}
-// //                       </tr>
-// //                     );
-// //                   })}
-
-// //                   {labTimings.length > 0 && (
-// //                     <tr>
-// //                       <Td>
-// //                         <strong>Lab - {formatTimeSlot(labTimings[0])}</strong>
-// //                       </Td>
-// //                       {workingDays.map((day, dayIndex) => {
-// //                         const labData = classData?.[day]?.lab;
-// //                         const slots = Array.isArray(labData?.slots) ? labData.slots : [];
-
-// //                         return (
-// //                           <Td key={dayIndex}>
-// //                             {slots.length > 0 ? (
-// //                               <LabSlot>
-// //                                 {slots.map((labSlot, labIndex) => (
-// //                                   <React.Fragment key={labIndex}>
-// //                                     <div>
-// //                                       <span>Batch: {labSlot.batch}</span> <br />
-// //                                       <span>Subject: {labSlot.subject}</span> <br />
-// //                                       <span>👨‍🏫 {labSlot.teacher}</span> <br />
-// //                                       <span>
-// //                                         🏫 <LabLocation>{labSlot.lab}</LabLocation>
-// //                                       </span>
-// //                                     </div>
-// //                                     {labIndex < slots.length - 1 && <BatchDivider />}
-// //                                   </React.Fragment>
-// //                                 ))}
-// //                               </LabSlot>
-// //                             ) : (
-// //                               "No Lab"
-// //                             )}
-// //                           </Td>
-// //                         );
-// //                       })}
-// //                     </tr>
-// //                   )}
-// //                 </tbody>
-// //               </Table>
-// //             </TableContainer>
-// //           );
-// //         })}
-// //       </div>
-// //     </Container>
-// //   );
-// // };
-
-// // export default ResultTimeTable;
-// import React, { useState } from "react";
-// import { useLocation } from "react-router-dom";
-// import styled from "styled-components";
-// import html2canvas from "html2canvas";
-// import jsPDF from "jspdf";
-// import { FaFilePdf, FaDownload, FaChalkboardTeacher, FaUserGraduate, FaCode } from "react-icons/fa";
-
-// // Styled Components
-// const Container = styled.div`
-//   padding: 40px;
-//   background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-//   min-height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-// `;
-
-// const Title = styled.h1`
-//   color: #fff;
-//   font-size: 2.5rem;
-//   text-align: center;
-//   margin-bottom: 30px;
-//   font-family: "Poppins", sans-serif;
-//   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-// `;
-
-// const TableContainer = styled.div`
-//   background-color: rgba(255, 255, 255, 0.95);
-//   padding: 25px;
-//   border-radius: 15px;
-//   width: 100%;
-//   max-width: 1200px;
-//   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-//   margin-bottom: 30px;
-//   overflow-x: auto;
-// `;
-
-// const SubTitle = styled.h2`
-//   text-align: center;
-//   color: white;
-//   background-color: ${props => props.isTeacher ? '#4a6fa5' : props.isJson ? '#6a4a8c' : '#ff785a'};
-//   padding: 12px;
-//   border-radius: 10px;
-//   font-size: 1.5rem;
-//   font-weight: bold;
-//   margin-bottom: 20px;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const RoomInfo = styled.p`
-//   text-align: center;
-//   font-size: 1.2rem;
-//   font-weight: bold;
-//   color: #2c3e50;
-//   margin-bottom: 20px;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const Table = styled.table`
-//   width: 100%;
-//   border-collapse: collapse;
-//   text-align: center;
-//   background-color: white;
-//   border-radius: 10px;
-//   overflow: hidden;
-//   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-// `;
-
-// const Th = styled.th`
-//   background-color: ${props => props.isTeacher ? '#4a6fa5' : props.isJson ? '#6a4a8c' : '#ff785a'};
-//   color: white;
-//   font-size: 1.1rem;
-//   padding: 15px;
-//   border: 1px solid #ddd;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const Td = styled.td`
-//   border: 1px solid #ddd;
-//   padding: 12px;
-//   font-size: 1rem;
-//   font-weight: bold;
-//   background-color: ${props => props.isFree ? '#f8f8f8' : '#fffaf2'};
-//   transition: all 0.3s ease-in-out;
-//   font-family: "Poppins", sans-serif;
-//   &:hover {
-//     background-color: ${props => 
-//       props.isTeacher ? '#d4e6ff' : 
-//       props.isJson ? '#e6d4ff' : 
-//       '#ffdac1'};
-//     transform: scale(1.02);
-//   }
-// `;
-
-// const TimeColumn = styled.th`
-//   background-color: #add8e6;
-//   color: black;
-//   font-size: 1.1rem;
-//   padding: 15px;
-//   border: 1px solid #ddd;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const ClassSlot = styled.div`
-//   background-color: #e6f7ff;
-//   padding: 10px;
-//   border-radius: 5px;
-//   margin: 5px 0;
-//   text-align: center;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const LabSlot = styled.div`
-//   background-color: ${props => props.isTeacher ? '#ffe6e6' : '#e6f7ff'};
-//   padding: 10px;
-//   border-radius: 5px;
-//   margin: 5px 0;
-//   text-align: center;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const BatchDivider = styled.div`
-//   border-bottom: 1px solid #ccc;
-//   margin: 8px 0;
-// `;
-
-// const NoDataMessage = styled.p`
-//   text-align: center;
-//   font-size: 1.5rem;
-//   color: red;
-//   margin-top: 20px;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const LabLocation = styled.span`
-//   font-weight: bold;
-//   color: #2c3e50;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const DownloadButton = styled.button`
-//   margin-bottom: 5px;
-//   background-color: #4caf50;
-//   color: white;
-//   padding: 12px 25px;
-//   border: none;
-//   border-radius: 8px;
-//   font-size: 1rem;
-//   cursor: pointer;
-//   margin-top: 20px;
-//   display: flex;
-//   align-items: center;
-//   gap: 10px;
-//   font-family: "Poppins", sans-serif;
-//   transition: background-color 0.3s ease;
-//   &:hover {
-//     background-color: #45a049;
-//     transform: translateY(-2px);
-//     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-//   }
-// `;
-
-// const IconWrapper = styled.span`
-//   font-size: 1.2rem;
-// `;
-
-// const ToggleButton = styled.button`
-//   background-color: ${props => props.active ? 
-//     props.mode === 'student' ? '#ff785a' : 
-//     props.mode === 'teacher' ? '#4a6fa5' : '#6a4a8c' : '#dddddd'};
-//   color: white;
-//   padding: 10px 20px;
-//   border: none;
-//   border-radius: 8px;
-//   font-size: 1rem;
-//   cursor: pointer;
-//   margin: 10px 5px;
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-//   font-family: "Poppins", sans-serif;
-//   transition: all 0.3s ease;
-//   &:hover {
-//     transform: translateY(-2px);
-//     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-//   }
-// `;
-
-// const ButtonContainer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   margin-bottom: 20px;
-//   flex-wrap: wrap;
-// `;
-
-// const JsonViewer = styled.pre`
-//   background-color: #f8f8f8;
-//   padding: 20px;
-//   border-radius: 8px;
-//   max-width: 100%;
-//   overflow-x: auto;
-//   white-space: pre-wrap;
-//   word-wrap: break-word;
-//   font-family: monospace;
-//   font-size: 0.9rem;
-//   line-height: 1.5;
-//   text-align: left;
-//   max-height: 500px;
-//   overflow-y: auto;
-// `;
-
-// const ResultTimeTable = () => {
-//   const location = useLocation();
-//   const {
-//     timetable = {},
-//     teacherTimetables = {},
-//     workingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-//     classTimes = ["9:00 AM - 10:00 AM", "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM"],
-//     labTimings = ["2:00 PM - 4:00 PM"],
-//     classRoomAssignment = {},
-//   } = location.state || {};
-
-//   const [viewMode, setViewMode] = useState('student'); // 'student', 'teacher', or 'json'
-
-//   if (!timetable || Object.keys(timetable).length === 0) {
-//     return (
-//       <Container>
-//         <NoDataMessage>No timetable data found.</NoDataMessage>
-//       </Container>
-//     );
-//   }
-
-//   // Format time slot with AM/PM
-//   const formatTimeSlot = (timeString) => {
-//     if (!timeString) return "";
-    
-//     // If already formatted, return as is
-//     if (timeString.includes("AM") || timeString.includes("PM")) {
-//       return timeString;
-//     }
-    
-//     // Format simple time strings (e.g., "9-10")
-//     if (timeString.includes("-")) {
-//       const [start, end] = timeString.split("-").map(Number);
-//       const startPeriod = start < 12 ? "AM" : "PM";
-//       const endPeriod = end < 12 ? "AM" : "PM";
-//       return `${start % 12 || 12}:00 ${startPeriod} - ${end % 12 || 12}:00 ${endPeriod}`;
-//     }
-    
-//     return timeString;
-//   };
-
-//   // Handle PDF download
-//   const handleDownloadPDF = () => {
-//     const input = document.getElementById("timetable-container");
-
-//     html2canvas(input, { scale: 3 }).then((canvas) => {
-//       const imgData = canvas.toDataURL("image/png");
-//       const pdf = new jsPDF("p", "mm", "a4");
-
-//       const pageWidth = 210;
-//       const pageHeight = 297;
-
-//       const imgWidth = pageWidth;
-//       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-//       let heightLeft = imgHeight;
-//       let position = 0;
-
-//       pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-//       heightLeft -= pageHeight;
-
-//       while (heightLeft > 0) {
-//         position = heightLeft - imgHeight;
-//         pdf.addPage();
-//         pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-//         heightLeft -= pageHeight;
-//       }
-
-//       pdf.save(`${viewMode}-timetable.pdf`);
-//     });
-//   };
-
-//   const classNames = Object.keys(timetable);
-//   const teacherNames = Object.keys(teacherTimetables);
-
-//   return (
-//     <Container>
-//       <Title>
-//         {viewMode === 'student' ? (
-//           <>
-//             <FaUserGraduate /> Student Timetable
-//           </>
-//         ) : viewMode === 'teacher' ? (
-//           <>
-//             <FaChalkboardTeacher /> Teacher Timetable
-//           </>
-//         ) : (
-//           <>
-//             <FaCode /> Timetable Data (JSON)
-//           </>
-//         )}
-//       </Title>
-
-//       <ButtonContainer>
-//         <ToggleButton
-//           active={viewMode === 'student'}
-//           onClick={() => setViewMode('student')}
-//           mode="student"
-//         >
-//           <FaUserGraduate /> Student View
-//         </ToggleButton>
-//         <ToggleButton
-//           active={viewMode === 'teacher'}
-//           onClick={() => setViewMode('teacher')}
-//           mode="teacher"
-//         >
-//           <FaChalkboardTeacher /> Teacher View
-//         </ToggleButton>
-//         <ToggleButton
-//           active={viewMode === 'json'}
-//           onClick={() => setViewMode('json')}
-//           mode="json"
-//         >
-//           <FaCode /> JSON View
-//         </ToggleButton>
-//       </ButtonContainer>
-
-//       {viewMode !== 'json' && (
-//         <DownloadButton onClick={handleDownloadPDF}>
-//           <IconWrapper>
-//             <FaFilePdf />
-//           </IconWrapper>
-//           Download as PDF
-//           <IconWrapper>
-//             <FaDownload />
-//           </IconWrapper>
-//         </DownloadButton>
-//       )}
-
-//       <div id="timetable-container">
-//         {viewMode === 'student' ? (
-//           // Student Timetable View
-//           classNames.map((className, classIndex) => {
-//             const classData = timetable[className];
-//             const classRoom = classRoomAssignment[className] || 
-//                             classData?.room || 
-//                             `Room ${classIndex + 101}`;
-
-//             return (
-//               <TableContainer key={classIndex}>
-//                 <SubTitle isTeacher={false} isJson={false}>
-//                   <FaUserGraduate /> {className} - Timetable
-//                 </SubTitle>
-//                 <RoomInfo>📌 Class Room: {classRoom}</RoomInfo>
-//                 <Table>
-//                   <thead>
-//                     <tr>
-//                       <TimeColumn>Time</TimeColumn>
-//                       {workingDays.map((day, index) => (
-//                         <Th key={index} isTeacher={false} isJson={false}>{day}</Th>
-//                       ))}
-//                     </tr>
-//                   </thead>
-//                   <tbody>
-//                     {classTimes.map((timeSlot, timeIndex) => {
-//                       const formattedTime = formatTimeSlot(timeSlot);
-//                       return (
-//                         <tr key={timeIndex}>
-//                           <Td>{formattedTime}</Td>
-//                           {workingDays.map((day, dayIndex) => {
-//                             const dayClasses = classData?.[day]?.classes || [];
-//                             const matchedClass = dayClasses.find((cls) => 
-//                               cls.time === timeSlot || 
-//                               cls.time === formattedTime
-//                             );
-
-//                             return (
-//                               <Td key={dayIndex} isFree={!matchedClass} isTeacher={false} isJson={false}>
-//                                 {matchedClass ? (
-//                                   <>
-//                                     <strong>Subject: {matchedClass.subject}</strong> <br />
-//                                     <span>👨‍🏫 {matchedClass.teacher}</span> <br />
-//                                   </>
-//                                 ) : (
-//                                   "No Class"
-//                                 )}
-//                               </Td>
-//                             );
-//                           })}
-//                         </tr>
-//                       );
-//                     })}
-
-//                     {labTimings.length > 0 && (
-//                       <tr>
-//                         <Td>
-//                           <strong>Lab - {formatTimeSlot(labTimings[0])}</strong>
-//                         </Td>
-//                         {workingDays.map((day, dayIndex) => {
-//                           const labData = classData?.[day]?.lab;
-//                           const slots = Array.isArray(labData?.slots) ? labData.slots : [];
-
-//                           return (
-//                             <Td key={dayIndex} isFree={slots.length === 0} isTeacher={false} isJson={false}>
-//                               {slots.length > 0 ? (
-//                                 <LabSlot isTeacher={false}>
-//                                   {slots.map((labSlot, labIndex) => (
-//                                     <React.Fragment key={labIndex}>
-//                                       <div>
-//                                         <span>Batch: {labSlot.batch}</span> <br />
-//                                         <span>Subject: {labSlot.subject}</span> <br />
-//                                         <span>👨‍🏫 {labSlot.teacher}</span> <br />
-//                                         <span>
-//                                           🏫 <LabLocation>{labSlot.lab}</LabLocation>
-//                                         </span>
-//                                       </div>
-//                                       {labIndex < slots.length - 1 && <BatchDivider />}
-//                                     </React.Fragment>
-//                                   ))}
-//                                 </LabSlot>
-//                               ) : (
-//                                 "No Lab"
-//                               )}
-//                             </Td>
-//                           );
-//                         })}
-//                       </tr>
-//                     )}
-//                   </tbody>
-//                 </Table>
-//               </TableContainer>
-//             );
-//           })
-//         ) : viewMode === 'teacher' ? (
-//           // Teacher Timetable View
-//           teacherNames.map((teacherName, teacherIndex) => {
-//             const teacherData = teacherTimetables[teacherName];
-
-//             return (
-//               <TableContainer key={teacherIndex}>
-//                 <SubTitle isTeacher={true} isJson={false}>
-//                   <FaChalkboardTeacher /> {teacherName}'s Schedule
-//                 </SubTitle>
-//                 <Table>
-//                   <thead>
-//                     <tr>
-//                       <TimeColumn>Time</TimeColumn>
-//                       {workingDays.map((day, index) => (
-//                         <Th key={index} isTeacher={true} isJson={false}>{day}</Th>
-//                       ))}
-//                     </tr>
-//                   </thead>
-//                   <tbody>
-//                     {classTimes.map((timeSlot, timeIndex) => {
-//                       const formattedTime = formatTimeSlot(timeSlot);
-//                       return (
-//                         <tr key={timeIndex}>
-//                           <Td>{formattedTime}</Td>
-//                           {workingDays.map((day, dayIndex) => {
-//                             const slot = teacherData?.[day]?.[timeSlot] || teacherData?.[day]?.[formattedTime];
-                            
-//                             return (
-//                               <Td key={dayIndex} isFree={!slot} isTeacher={true} isJson={false}>
-//                                 {slot ? (
-//                                   slot.type === "LAB" ? (
-//                                     <LabSlot isTeacher={true}>
-//                                       <strong>{slot.subject} Lab</strong> <br />
-//                                       {slot.batch && <span>Batch: {slot.batch}</span>} <br />
-//                                       {slot.location && <span>Location: {slot.location}</span>} <br />
-//                                       {slot.className && <span>Class: {slot.className}</span>}
-//                                     </LabSlot>
-//                                   ) : (
-//                                     <ClassSlot>
-//                                       <strong>{slot.subject}</strong> <br />
-//                                       {slot.className && <span>Class: {slot.className}</span>} <br />
-//                                       {slot.room && <span>Room: {slot.room}</span>}
-//                                     </ClassSlot>
-//                                   )
-//                                 ) : (
-//                                   "Free"
-//                                 )}
-//                               </Td>
-//                             );
-//                           })}
-//                         </tr>
-//                       );
-//                     })}
-
-//                     {labTimings.length > 0 && (
-//                       <tr>
-//                         <Td>
-//                           <strong>Lab - {formatTimeSlot(labTimings[0])}</strong>
-//                         </Td>
-//                         {workingDays.map((day, dayIndex) => {
-//                           const slot = teacherData?.[day]?.[labTimings[0]];
-                          
-//                           return (
-//                             <Td key={dayIndex} isFree={!slot} isTeacher={true} isJson={false}>
-//                               {slot ? (
-//                                 <LabSlot isTeacher={true}>
-//                                   <strong>{slot.subject} Lab</strong> <br />
-//                                   {slot.batch && <span>Batch: {slot.batch}</span>} <br />
-//                                   {slot.location && <span>Location: {slot.location}</span>} <br />
-//                                   {slot.className && <span>Class: {slot.className}</span>}
-//                                 </LabSlot>
-//                               ) : (
-//                                 "Free"
-//                               )}
-//                             </Td>
-//                           );
-//                         })}
-//                       </tr>
-//                     )}
-//                   </tbody>
-//                 </Table>
-//               </TableContainer>
-//             );
-//           })
-//         ) : (
-//           // JSON View
-//           <TableContainer>
-//             <SubTitle isTeacher={false} isJson={true}>
-//               <FaCode /> Timetable Data (JSON)
-//             </SubTitle>
-//             <JsonViewer>
-//               {JSON.stringify({
-//                 timetable,
-//                 teacherTimetables,
-//                 workingDays,
-//                 classTimes,
-//                 labTimings,
-//                 classRoomAssignment
-//               }, null, 2)}
-//             </JsonViewer>
-//           </TableContainer>
-//         )}
-//       </div>
-//     </Container>
-//   );
-// };
-
-// export default ResultTimeTable;
-// // import React from "react";
-// // import { useLocation } from "react-router-dom";
-// // import styled from "styled-components";
-// // import html2canvas from "html2canvas";
-// // import jsPDF from "jspdf";
-// // import { FaFilePdf, FaDownload, FaSearch } from "react-icons/fa";
-
-// // // Styled Components (updated with new styles)
-// // const Container = styled.div`
-// //   padding: 40px;
-// //   background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-// //   min-height: 100vh;
-// //   display: flex;
-// //   justify-content: center;
-// //   align-items: center;
-// //   flex-direction: column;
-// // `;
-
-// // const Title = styled.h1`
-// //   color: #fff;
-// //   font-size: 2.5rem;
-// //   text-align: center;
-// //   margin-bottom: 30px;
-// //   font-family: "Poppins", sans-serif;
-// //   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-// // `;
-
-// // const TableContainer = styled.div`
-// //   background-color: rgba(255, 255, 255, 0.95);
-// //   padding: 25px;
-// //   border-radius: 15px;
-// //   width: 100%;
-// //   max-width: 1200px;
-// //   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-// //   margin-bottom: 30px;
-// //   overflow-x: auto;
-// // `;
-
-// // const SubTitle = styled.h2`
-// //   text-align: center;
-// //   color: white;
-// //   background-color: #ff785a;
-// //   padding: 12px;
-// //   border-radius: 10px;
-// //   font-size: 1.5rem;
-// //   font-weight: bold;
-// //   margin-bottom: 20px;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const TeacherSubTitle = styled(SubTitle)`
-// //   background-color: #4a89dc;
-// // `;
-
-// // const RoomInfo = styled.p`
-// //   text-align: center;
-// //   font-size: 1.2rem;
-// //   font-weight: bold;
-// //   color: #2c3e50;
-// //   margin-bottom: 20px;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const Table = styled.table`
-// //   width: 100%;
-// //   border-collapse: collapse;
-// //   text-align: center;
-// //   background-color: white;
-// //   border-radius: 10px;
-// //   overflow: hidden;
-// //   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-// // `;
-
-// // const Th = styled.th`
-// //   background-color: #ff785a;
-// //   color: white;
-// //   font-size: 1.1rem;
-// //   padding: 15px;
-// //   border: 1px solid #ddd;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const TeacherTh = styled(Th)`
-// //   background-color: #4a89dc;
-// // `;
-
-// // const Td = styled.td`
-// //   border: 1px solid #ddd;
-// //   padding: 12px;
-// //   font-size: 1rem;
-// //   font-weight: bold;
-// //   background-color: #fffaf2;
-// //   transition: all 0.3s ease-in-out;
-// //   font-family: "Poppins", sans-serif;
-// //   &:hover {
-// //     background-color: #ffdac1;
-// //     transform: scale(1.02);
-// //   }
-// // `;
-
-// // const TeacherTd = styled(Td)`
-// //   background-color: #e8f4fc;
-// //   &:hover {
-// //     background-color: #c1e1ff;
-// //   }
-// // `;
-
-// // const TimeColumn = styled.th`
-// //   background-color: #add8e6;
-// //   color: black;
-// //   font-size: 1.1rem;
-// //   padding: 15px;
-// //   border: 1px solid #ddd;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const LabSlot = styled.div`
-// //   background-color: #e6f7ff;
-// //   padding: 10px;
-// //   border-radius: 5px;
-// //   margin: 5px 0;
-// //   text-align: center;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const TeacherLabSlot = styled(LabSlot)`
-// //   background-color: #d6e9ff;
-// // `;
-
-// // const BatchDivider = styled.div`
-// //   border-bottom: 1px solid #ccc;
-// //   margin: 8px 0;
-// // `;
-
-// // const NoDataMessage = styled.p`
-// //   text-align: center;
-// //   font-size: 1.5rem;
-// //   color: red;
-// //   margin-top: 20px;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const LabLocation = styled.span`
-// //   font-weight: bold;
-// //   color: #2c3e50;
-// //   font-family: "Poppins", sans-serif;
-// // `;
-
-// // const DownloadButton = styled.button`
-// //   margin-bottom: 5px;
-// //   background-color: #4caf50;
-// //   color: white;
-// //   padding: 12px 25px;
-// //   border: none;
-// //   border-radius: 8px;
-// //   font-size: 1rem;
-// //   cursor: pointer;
-// //   margin-top: 20px;
-// //   display: flex;
-// //   align-items: center;
-// //   gap: 10px;
-// //   font-family: "Poppins", sans-serif;
-// //   transition: background-color 0.3s ease;
-// //   &:hover {
-// //     background-color: #45a049;
-// //     transform: translateY(-2px);
-// //     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-// //   }
-// // `;
-
-// // const IconWrapper = styled.span`
-// //   font-size: 1.2rem;
-// // `;
-
-// // const SearchContainer = styled.div`
-// //   display: flex;
-// //   align-items: center;
-// //   margin-bottom: 20px;
-// //   width: 100%;
-// //   max-width: 500px;
-// // `;
-
-// // const SearchInput = styled.input`
-// //   padding: 12px 20px;
-// //   width: 100%;
-// //   border-radius: 25px;
-// //   border: none;
-// //   font-size: 1rem;
-// //   font-family: "Poppins", sans-serif;
-// //   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-// //   &:focus {
-// //     outline: none;
-// //     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-// //   }
-// // `;
-
-// // const SearchIcon = styled.span`
-// //   position: relative;
-// //   right: 35px;
-// //   color: #777;
-// // `;
-
-// // const ResultTimeTable = () => {
-// //   const location = useLocation();
-// //   const {
-// //     timetable = {},
-// //     teacherTimetables = {},
-// //     workingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-// //     classTimes = ["9:00 AM - 10:00 AM", "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM"],
-// //     labTimings = ["2:00 PM - 4:00 PM"],
-// //     classRoomAssignment = {},
-// //   } = location.state || {};
-
-// //   const [searchTerm, setSearchTerm] = React.useState("");
-
-// //   if (!timetable || Object.keys(timetable).length === 0) {
-// //     return (
-// //       <Container>
-// //         <NoDataMessage>No timetable data found.</NoDataMessage>
-// //       </Container>
-// //     );
-// //   }
-
-// //   // Format time slot with AM/PM
-// //   const formatTimeSlot = (timeString) => {
-// //     if (!timeString) return "";
-    
-// //     // If already formatted, return as is
-// //     if (timeString.includes("AM") || timeString.includes("PM")) {
-// //       return timeString;
-// //     }
-    
-// //     // Format simple time strings (e.g., "9-10")
-// //     if (timeString.includes("-")) {
-// //       const [start, end] = timeString.split("-").map(Number);
-// //       const startPeriod = start < 12 ? "AM" : "PM";
-// //       const endPeriod = end < 12 ? "AM" : "PM";
-// //       return `${start % 12 || 12}:00 ${startPeriod} - ${end % 12 || 12}:00 ${endPeriod}`;
-// //     }
-    
-// //     return timeString;
-// //   };
-
-// //   // Handle PDF download
-// //   const handleDownloadPDF = () => {
-// //     const input = document.getElementById("timetable-container");
-
-// //     html2canvas(input, { scale: 3 }).then((canvas) => {
-// //       const imgData = canvas.toDataURL("image/png");
-// //       const pdf = new jsPDF("p", "mm", "a4");
-
-// //       const pageWidth = 210;
-// //       const pageHeight = 297;
-
-// //       const imgWidth = pageWidth;
-// //       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-// //       let heightLeft = imgHeight;
-// //       let position = 0;
-
-// //       pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-// //       heightLeft -= pageHeight;
-
-// //       while (heightLeft > 0) {
-// //         position = heightLeft - imgHeight;
-// //         pdf.addPage();
-// //         pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-// //         heightLeft -= pageHeight;
-// //       }
-
-// //       pdf.save("timetable.pdf");
-// //     });
-// //   };
-
-// //   const classNames = Object.keys(timetable);
-// //   const teacherNames = Object.keys(teacherTimetables).filter(name =>
-// //     name.toLowerCase().includes(searchTerm.toLowerCase())
-// //   );
-
-// //   return (
-// //     <Container>
-// //       <Title>Generated Timetable</Title>
-// //       <DownloadButton onClick={handleDownloadPDF}>
-// //         <IconWrapper>
-// //           <FaFilePdf />
-// //         </IconWrapper>
-// //         Download as PDF
-// //         <IconWrapper>
-// //           <FaDownload />
-// //         </IconWrapper>
-// //       </DownloadButton>
-
-// //       <div id="timetable-container">
-// //         {/* Student Timetables */}
-// //         {classNames.map((className, classIndex) => {
-// //           const classData = timetable[className];
-// //           const classRoom = classRoomAssignment[className] || 
-// //                           classData?.room || 
-// //                           `Room ${classIndex + 101}`;
-// //           return (
-// //             <TableContainer key={classIndex}>
-// //               <SubTitle>{className} - Timetable</SubTitle>
-// //               <RoomInfo>📌 Class Room: {classRoom}</RoomInfo>
-// //               <Table>
-// //                 <thead>
-// //                   <tr>
-// //                     <TimeColumn>Time</TimeColumn>
-// //                     {workingDays.map((day, index) => (
-// //                       <Th key={index}>{day}</Th>
-// //                     ))}
-// //                   </tr>
-// //                 </thead>
-// //                 <tbody>
-// //                   {classTimes.map((timeSlot, timeIndex) => {
-// //                     const formattedTime = formatTimeSlot(timeSlot);
-// //                     return (
-// //                       <tr key={timeIndex}>
-// //                         <Td>{formattedTime}</Td>
-// //                         {workingDays.map((day, dayIndex) => {
-// //                           const dayClasses = classData?.[day]?.classes || [];
-// //                           const matchedClass = dayClasses.find((cls) => 
-// //                             cls.time === timeSlot || 
-// //                             cls.time === formattedTime
-// //                           );
-// //                           return (
-// //                             <Td key={dayIndex}>
-// //                               {matchedClass ? (
-// //                                 <>
-// //                                   <strong>Subject: {matchedClass.subject}</strong> <br />
-// //                                   <span>👨‍🏫 {matchedClass.teacher}</span> <br />
-// //                                   {matchedClass.room && (
-// //                                     <span>🏫 Room: {matchedClass.room}</span>
-// //                                   )}
-// //                                 </>
-// //                               ) : (
-// //                                 "No Class"
-// //                               )}
-// //                             </Td>
-// //                           );
-// //                         })}
-// //                       </tr>
-// //                     );
-// //                   })}
-// //                   {labTimings.length > 0 && (
-// //                     <tr>
-// //                       <Td>
-// //                         <strong>Lab - {formatTimeSlot(labTimings[0])}</strong>
-// //                       </Td>
-// //                       {workingDays.map((day, dayIndex) => {
-// //                         const labData = classData?.[day]?.lab;
-// //                         const slots = Array.isArray(labData?.slots) ? labData.slots : [];
-// //                         return (
-// //                           <Td key={dayIndex}>
-// //                             {slots.length > 0 ? (
-// //                               <LabSlot>
-// //                                 {slots.map((labSlot, labIndex) => (
-// //                                   <React.Fragment key={labIndex}>
-// //                                     <div>
-// //                                       <span>Batch: {labSlot.batch}</span> <br />
-// //                                       <span>Subject: {labSlot.subject}</span> <br />
-// //                                       <span>👨‍🏫 {labSlot.teacher}</span> <br />
-// //                                       <span>
-// //                                         🏫 <LabLocation>{labSlot.lab}</LabLocation>
-// //                                       </span>
-// //                                     </div>
-// //                                     {labIndex < slots.length - 1 && <BatchDivider />}
-// //                                   </React.Fragment>
-// //                                 ))}
-// //                               </LabSlot>
-// //                             ) : (
-// //                               "No Lab"
-// //                             )}
-// //                           </Td>
-// //                         );
-// //                       })}
-// //                     </tr>
-// //                   )}
-// //                 </tbody>
-// //               </Table>
-// //             </TableContainer>
-// //           );
-// //         })}
-// //         {/* Teacher Timetables */}
-// //         {teacherNames.length > 0 && (
-// //           <>
-// //             <Title>Teacher Timetables</Title>
-// //             <SearchContainer>
-// //               <SearchInput
-// //                 type="text"
-// //                 placeholder="Search teachers..."
-// //                 value={searchTerm}
-// //                 onChange={(e) => setSearchTerm(e.target.value)}
-// //               />
-// //               <SearchIcon>
-// //                 <FaSearch />
-// //               </SearchIcon>
-// //             </SearchContainer>
-// //             {teacherNames.map((teacherName, teacherIndex) => {
-// //               const teacherData = teacherTimetables[teacherName];
-// //               return (
-// //                 <TableContainer key={`teacher-${teacherIndex}`}>
-// //                   <TeacherSubTitle>{teacherName} - Timetable</TeacherSubTitle>
-// //                   <Table>
-// //                     <thead>
-// //                       <tr>
-// //                         <TimeColumn>Time</TimeColumn>
-// //                         {workingDays.map((day, dayIndex) => (
-// //                           <TeacherTh key={`teacher-day-${dayIndex}`}>{day}</TeacherTh>
-// //                         ))}
-// //                       </tr>
-// //                     </thead>
-// //                     <tbody>
-// //                       {classTimes.map((timeSlot, timeIndex) => {
-// //                         const formattedTime = formatTimeSlot(timeSlot);
-// //                         return (
-// //                           <tr key={timeIndex}>
-// //                             <TeacherTd>{formattedTime}</TeacherTd>
-// //                             {workingDays.map((day, dayIndex) => {
-// //                               const slot = teacherData?.[day]?.[timeSlot] || teacherData?.[day]?.[formattedTime];
-// //                               if (slot) {
-// //                                 if (slot.isLab) {
-// //                                   return (
-// //                                     <TeacherTd key={dayIndex}>
-// //                                       <TeacherLabSlot>
-// //                                         <strong>Lab: {slot.subject}</strong> <br />
-// //                                         <span>Batch: {slot.batch}</span> <br />
-// //                                         <span>🏫 Location: {slot.lab || slot.location}</span>
-// //                                       </TeacherLabSlot>
-// //                                     </TeacherTd>
-// //                                   );
-// //                                 } else {
-// //                                   return (
-// //                                     <TeacherTd key={dayIndex}>
-// //                                       <strong>Class: {slot.class}</strong><br />
-// //                                       <span>Subject: {slot.subject}</span><br />
-// //                                       {slot.room && <span>Room: {slot.room}</span>}
-// //                                     </TeacherTd>
-// //                                   );
-// //                                 }
-// //                               } else {
-// //                                 return <TeacherTd key={dayIndex}>Free</TeacherTd>;
-// //                               }
-// //                             })}
-// //                           </tr>
-// //                         );
-// //                       })}
-// //                     </tbody>
-// //                   </Table>
-// //                 </TableContainer>
-// //               );
-// //             })}
-// //           </>
-// //         )}
-// //       </div>
-// //     </Container>
-// //   );
-// // };
-
-// // export default ResultTimeTable;
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { FaFilePdf, FaDownload, FaChalkboardTeacher, FaUserGraduate, FaCode, FaExclamationTriangle } from "react-icons/fa";
+import { 
+  FaFilePdf, 
+  FaDownload, 
+  FaChalkboardTeacher, 
+  FaUserGraduate, 
+  FaCode, 
+  FaExclamationTriangle, 
+  FaInfoCircle,
+  FaBug
+} from "react-icons/fa";
 
 // Styled Components
 const Container = styled.div`
@@ -1381,7 +48,11 @@ const TableContainer = styled.div`
 const SubTitle = styled.h2`
   text-align: center;
   color: white;
-  background-color: ${props => props.isTeacher ? '#4a6fa5' : props.isJson ? '#6a4a8c' : '#ff785a'};
+  background-color: ${props => {
+    if (props.$isTeacher) return '#4a6fa5';
+    if (props.$isJson) return '#6a4a8c';
+    return '#ff785a';
+  }};
   padding: 12px;
   border-radius: 10px;
   font-size: 1.5rem;
@@ -1410,7 +81,11 @@ const Table = styled.table`
 `;
 
 const Th = styled.th`
-  background-color: ${props => props.isTeacher ? '#4a6fa5' : props.isJson ? '#6a4a8c' : '#ff785a'};
+  background-color: ${props => {
+    if (props.$isTeacher) return '#4a6fa5';
+    if (props.$isJson) return '#6a4a8c';
+    return '#ff785a';
+  }};
   color: white;
   font-size: 1.1rem;
   padding: 15px;
@@ -1423,14 +98,15 @@ const Td = styled.td`
   padding: 12px;
   font-size: 1rem;
   font-weight: bold;
-  background-color: ${props => props.isFree ? '#f8f8f8' : '#fffaf2'};
+  background-color: ${props => props.$isFree ? '#f8f8f8' : '#fffaf2'};
   transition: all 0.3s ease-in-out;
   font-family: "Poppins", sans-serif;
   &:hover {
-    background-color: ${props => 
-      props.isTeacher ? '#d4e6ff' : 
-      props.isJson ? '#e6d4ff' : 
-      '#ffdac1'};
+    background-color: ${props => {
+      if (props.$isTeacher) return '#d4e6ff';
+      if (props.$isJson) return '#e6d4ff';
+      return '#ffdac1';
+    }};
     transform: scale(1.02);
   }
 `;
@@ -1454,7 +130,7 @@ const ClassSlot = styled.div`
 `;
 
 const LabSlot = styled.div`
-  background-color: ${props => props.isTeacher ? '#ffe6e6' : '#e6f7ff'};
+  background-color: ${props => props.$isTeacher ? '#ffe6e6' : '#e6f7ff'};
   padding: 10px;
   border-radius: 5px;
   margin: 5px 0;
@@ -1512,9 +188,12 @@ const IconWrapper = styled.span`
 `;
 
 const ToggleButton = styled.button`
-  background-color: ${props => props.active ? 
-    props.mode === 'student' ? '#ff785a' : 
-    props.mode === 'teacher' ? '#4a6fa5' : '#6a4a8c' : '#dddddd'};
+  background-color: ${props => {
+    if (!props.$active) return '#dddddd';
+    if (props.$mode === 'student') return '#ff785a';
+    if (props.$mode === 'teacher') return '#4a6fa5';
+    return '#6a4a8c';
+  }};
   color: white;
   padding: 10px 20px;
   border: none;
@@ -1568,183 +247,339 @@ const WarningMessage = styled.div`
   font-family: "Poppins", sans-serif;
 `;
 
+const DebugInfo = styled.div`
+  background-color: #f0f8ff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  text-align: left;
+  border: 1px solid #ccc;
+  max-height: 300px;
+  overflow-y: auto;
+`;
+
+const StatsContainer = styled.div`
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+`;
+
+const StatCard = styled.div`
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+`;
+
+const DebugSteps = styled.div`
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  text-align: left;
+  font-family: monospace;
+`;
+
+const DebugStep = styled.div`
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+`;
+
 const ResultTimeTable = () => {
   const location = useLocation();
-  const {
-    timetable = {},
-    teacherTimetables = {},
-    workingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    classTimes = ["9:00 AM - 10:00 AM", "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM"],
-    labTimings = ["2:00 PM - 4:00 PM"],
+  
+  const defaultWorkingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const defaultClassTimes = ["9-10", "10-11", "11-12"];
+  const defaultLabTimings = ["16-18"];
+
+  const [viewMode, setViewMode] = useState('student');
+  const [debugMode, setDebugMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [debugSteps, setDebugSteps] = useState([]);
+  const [missingClasses, setMissingClasses] = useState([]);
+  const [teacherTimetables, setTeacherTimetables] = useState(null);
+  
+  const { 
+    timetable = {}, 
+    workingDays = defaultWorkingDays,
+    classTimes = defaultClassTimes,
+    labTimings = defaultLabTimings,
     classRoomAssignment = {},
     metadata = {}
   } = location.state || {};
 
-  const [viewMode, setViewMode] = useState('student');
-  const [missingClasses, setMissingClasses] = useState([]);
-
-  // Analyze timetable data for missing classes
-  useEffect(() => {
-    if (viewMode === 'student' && timetable) {
-      const missing = [];
-      Object.entries(timetable).forEach(([className, classData]) => {
-        workingDays.forEach(day => {
-          const expectedSlots = classTimes.length;
-          const actualSlots = classData[day]?.classes?.length || 0;
-          
-          if (actualSlots < expectedSlots) {
-            missing.push({
-              className,
-              day,
-              missing: expectedSlots - actualSlots
-            });
-          }
-        });
-      });
-      setMissingClasses(missing);
-    }
-  }, [timetable, viewMode, classTimes, workingDays]);
-
-  if (!timetable || Object.keys(timetable).length === 0) {
-    return (
-      <Container>
-        <NoDataMessage>
-          <FaExclamationTriangle /> No timetable data found.
-        </NoDataMessage>
-      </Container>
-    );
-  }
-
-  const formatTimeSlot = (timeString) => {
+  const formatTimeSlot = useCallback((timeString) => {
     if (!timeString) return "";
     if (timeString.includes("AM") || timeString.includes("PM")) return timeString;
     if (timeString.includes("-")) {
-      const [start, end] = timeString.split("-").map(Number);
+      const [start, end] = timeString.split("-").map(t => parseInt(t.trim()));
       const startPeriod = start < 12 ? "AM" : "PM";
       const endPeriod = end < 12 ? "AM" : "PM";
       return `${start % 12 || 12}:00 ${startPeriod} - ${end % 12 || 12}:00 ${endPeriod}`;
     }
     return timeString;
-  };
+  }, []);
 
-  const handleDownloadPDF = () => {
-    const input = document.getElementById("timetable-container");
-    html2canvas(input, { scale: 3 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const imgWidth = 210;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save(`${viewMode}-timetable.pdf`);
-    });
-  };
+  useEffect(() => {
+    if (location.state) {
+      setIsLoading(false);
+      
+      const extractedTeacherData = {};
+      
+      Object.values(timetable).forEach(classData => {
+        Object.entries(classData).forEach(([day, dayData]) => {
+          if (dayData.classes) {
+            dayData.classes.forEach(classItem => {
+              if (!classItem.teacher) return;
+              
+              if (!extractedTeacherData[classItem.teacher]) {
+                extractedTeacherData[classItem.teacher] = {};
+              }
+              
+              if (!extractedTeacherData[classItem.teacher][day]) {
+                extractedTeacherData[classItem.teacher][day] = [];
+              }
+              
+              extractedTeacherData[classItem.teacher][day].push({
+                ...classItem,
+                isFree: false,
+                type: 'CLASS'
+              });
+            });
+          }
+          
+          if (dayData.lab?.slots) {
+            dayData.lab.slots.forEach(labItem => {
+              if (!labItem.teacher) return;
+              
+              if (!extractedTeacherData[labItem.teacher]) {
+                extractedTeacherData[labItem.teacher] = {};
+              }
+              
+              if (!extractedTeacherData[labItem.teacher][day]) {
+                extractedTeacherData[labItem.teacher][day] = [];
+              }
+              
+              extractedTeacherData[labItem.teacher][day].push({
+                ...labItem,
+                isFree: false,
+                type: 'LAB'
+              });
+            });
+          }
+        });
+      });
+      
+      Object.keys(extractedTeacherData).forEach(teacher => {
+        workingDays.forEach(day => {
+          if (!extractedTeacherData[teacher][day]) {
+            extractedTeacherData[teacher][day] = [];
+          }
+          
+          classTimes.forEach(timeSlot => {
+            const hasClass = extractedTeacherData[teacher][day].some(
+              item => item.time === timeSlot || item.rawTime === timeSlot
+            );
+            
+            if (!hasClass) {
+              extractedTeacherData[teacher][day].push({
+                isFree: true,
+                time: timeSlot,
+                rawTime: timeSlot,
+                type: 'FREE'
+              });
+            }
+          });
+          
+          labTimings.forEach(labTime => {
+            const hasLab = extractedTeacherData[teacher][day].some(
+              item => item.time === labTime || item.rawTime === labTime
+            );
+            
+            if (!hasLab) {
+              extractedTeacherData[teacher][day].push({
+                isFree: true,
+                time: labTime,
+                rawTime: labTime,
+                type: 'FREE'
+              });
+            }
+          });
+        });
+      });
+      
+      setTeacherTimetables(extractedTeacherData);
+      
+      setDebugSteps(prev => [
+        ...prev,
+        {
+          step: 1,
+          description: 'Data loaded and teacher data extracted',
+          data: {
+            timetableKeys: Object.keys(timetable),
+            extractedTeachers: Object.keys(extractedTeacherData),
+            workingDays,
+            classTimes,
+            labTimings
+          }
+        }
+      ]);
+    }
+  }, [location.state, timetable, workingDays, classTimes, labTimings]);
 
-  const renderTeacherTimetable = () => {
-    const teacherNames = Object.keys(teacherTimetables);
+  const findTeacherSlot = (daySchedule, timeSlot) => {
+    if (!daySchedule || !Array.isArray(daySchedule)) return null;
     
-    if (teacherNames.length === 0) {
+    return daySchedule.find(slot => 
+      slot && 
+      (slot.rawTime === timeSlot || 
+       slot.time === formatTimeSlot(timeSlot) ||
+       slot.time === timeSlot)
+    );
+  };
+
+  const renderTeacherStats = () => {
+    if (!teacherTimetables || Object.keys(teacherTimetables).length === 0) return null;
+
+    const teacherNames = Object.keys(teacherTimetables);
+    const stats = teacherNames.map(teacher => {
+      const teacherData = teacherTimetables[teacher];
+      let classCount = 0;
+      let labCount = 0;
+      let freeCount = 0;
+
+      Object.values(teacherData).forEach(daySchedule => {
+        daySchedule.forEach(slot => {
+          if (slot?.isFree) {
+            freeCount++;
+          } else if (slot?.type === 'CLASS' || slot?.type === 'class') {
+            classCount++;
+          } else if (slot?.type === 'LAB' || slot?.type === 'lab') {
+            labCount++;
+          }
+        });
+      });
+
+      return {
+        teacher,
+        classes: classCount,
+        labs: labCount,
+        free: freeCount,
+        total: classCount + labCount + freeCount
+      };
+    });
+
+    return (
+      <StatsContainer>
+        <h3 style={{gridColumn: '1 / -1', textAlign: 'center', margin: '0 0 10px 0'}}>
+          Teacher Statistics
+        </h3>
+        {stats.map(stat => (
+          <StatCard key={stat.teacher}>
+            <strong>{stat.teacher}</strong><br/>
+            Classes: {stat.classes}<br/>
+            Labs: {stat.labs}<br/>
+            Free: {stat.free}<br/>
+            <small>Total: {stat.total} periods</small>
+          </StatCard>
+        ))}
+      </StatsContainer>
+    );
+  };
+
+  const renderTeacherTimetable = useCallback(() => {
+    if (isLoading) return <div>Loading teacher data...</div>;
+
+    if (!teacherTimetables || Object.keys(teacherTimetables).length === 0) {
       return (
         <TableContainer>
-          <SubTitle isTeacher={true}>
+          <SubTitle $isTeacher={true}>
             <FaChalkboardTeacher /> Teacher Timetable
           </SubTitle>
           <NoDataMessage>
-            <FaExclamationTriangle /> No teacher schedules generated.
+            <FaExclamationTriangle /> No teacher data available in the timetable
           </NoDataMessage>
-          <WarningMessage>
-            <FaExclamationTriangle /> 
-            Possible reasons:
-            <ul>
-              <li>No teachers were assigned to subjects</li>
-              <li>Schedule conflicts prevented assignments</li>
-              <li>Backend generation failed</li>
-            </ul>
-          </WarningMessage>
         </TableContainer>
       );
     }
 
-    return teacherNames.map((teacherName) => {
-      const teacherData = teacherTimetables[teacherName];
-      const teacherSlots = Object.values(teacherData).flatMap(day => 
-        Object.values(day).filter(slot => slot !== null)
-      ).length;
-
-      return (
-        <TableContainer key={teacherName}>
-          <SubTitle isTeacher={true}>
-            <FaChalkboardTeacher /> {teacherName}'s Schedule ({teacherSlots} assigned slots)
-          </SubTitle>
-          <Table>
-            <thead>
-              <tr>
-                <TimeColumn>Time</TimeColumn>
-                {workingDays.map((day) => (
-                  <Th key={day} isTeacher={true}>{day}</Th>
-                ))}
+    return Object.entries(teacherTimetables).map(([teacherName, teacherSchedule]) => (
+      <TableContainer key={teacherName}>
+        <SubTitle $isTeacher={true}>
+          <FaChalkboardTeacher /> {teacherName}'s Schedule
+        </SubTitle>
+        
+        {renderTeacherStats()}
+        
+        <Table>
+          <thead>
+            <tr>
+              <TimeColumn>Time</TimeColumn>
+              {workingDays.map(day => (
+                <Th key={day} $isTeacher={true}>{day}</Th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {classTimes.map(timeSlot => (
+              <tr key={timeSlot}>
+                <Td>{formatTimeSlot(timeSlot)}</Td>
+                {workingDays.map(day => {
+                  const daySchedule = teacherSchedule[day] || [];
+                  const slot = findTeacherSlot(daySchedule, timeSlot);
+                  
+                  return (
+                    <Td key={`${day}-${timeSlot}`} $isFree={!slot || slot.isFree} $isTeacher={true}>
+                      {slot && !slot.isFree ? (
+                        <ClassSlot>
+                          <strong>{slot.subject || 'No subject'}</strong><br/>
+                          {slot.className && `Class: ${slot.className}`}<br/>
+                          {slot.room && `Room: ${slot.room}`}<br/>
+                          {slot.location && `Location: ${slot.location}`}
+                        </ClassSlot>
+                      ) : 'Free'}
+                    </Td>
+                  );
+                })}
               </tr>
-            </thead>
-            <tbody>
-              {classTimes.map((timeSlot) => {
-                const formattedTime = formatTimeSlot(timeSlot);
-                return (
-                  <tr key={timeSlot}>
-                    <Td>{formattedTime}</Td>
-                    {workingDays.map((day) => {
-                      const slot = teacherData[day]?.[timeSlot] || teacherData[day]?.[formattedTime];
-                      return (
-                        <Td key={day} isFree={!slot} isTeacher={true}>
-                          {slot ? (
-                            slot.type === "LAB" ? (
-                              <LabSlot isTeacher={true}>
-                                <strong>{slot.subject} Lab</strong> <br />
-                                {slot.batch && <span>Batch: {slot.batch}</span>} <br />
-                                {slot.location && <span>Location: {slot.location}</span>} <br />
-                                {slot.className && <span>Class: {slot.className}</span>}
-                              </LabSlot>
-                            ) : (
-                              <ClassSlot>
-                                <strong>{slot.subject}</strong> <br />
-                                {slot.className && <span>Class: {slot.className}</span>} <br />
-                                {slot.room && <span>Room: {slot.room}</span>}
-                              </ClassSlot>
-                            )
-                          ) : "Free"}
-                        </Td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-
-              {labTimings.length > 0 && (
-                <tr>
-                  <Td>
-                    <strong>Lab - {formatTimeSlot(labTimings[0])}</strong>
-                  </Td>
-                  {workingDays.map((day) => {
-                    const slot = teacherData[day]?.[labTimings[0]];
-                    return (
-                      <Td key={day} isFree={!slot} isTeacher={true}>
-                        {slot ? (
-                          <LabSlot isTeacher={true}>
-                            <strong>{slot.subject} Lab</strong> <br />
-                            {slot.batch && <span>Batch: {slot.batch}</span>} <br />
-                            {slot.location && <span>Location: {slot.location}</span>} <br />
-                            {slot.className && <span>Class: {slot.className}</span>}
-                          </LabSlot>
-                        ) : "Free"}
-                      </Td>
-                    );
-                  })}
-                </tr>
-              )}
-            </tbody>
-          </Table>
-        </TableContainer>
-      );
-    });
-  };
+            ))}
+            
+            {labTimings.map(labTime => (
+              <tr key={`lab-${labTime}`}>
+                <Td>Lab - {formatTimeSlot(labTime)}</Td>
+                {workingDays.map(day => {
+                  const daySchedule = teacherSchedule[day] || [];
+                  const slot = findTeacherSlot(daySchedule, labTime);
+                  
+                  return (
+                    <Td key={`${day}-lab-${labTime}`} $isFree={!slot || slot.isFree} $isTeacher={true}>
+                      {slot && !slot.isFree ? (
+                        <LabSlot $isTeacher={true}>
+                          <strong>{slot.subject || 'No subject'} Lab</strong><br/>
+                          {slot.batch && `Batch: ${slot.batch}`}<br/>
+                          {slot.location && `Location: ${slot.location}`}<br/>
+                          {slot.className && `Class: ${slot.className}`}
+                        </LabSlot>
+                      ) : 'Free'}
+                    </Td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </TableContainer>
+    ));
+  }, [teacherTimetables, isLoading, classTimes, labTimings, workingDays, formatTimeSlot]);
 
   const renderStudentTimetable = () => {
     const classNames = Object.keys(timetable);
@@ -1752,15 +587,10 @@ const ResultTimeTable = () => {
     return classNames.map((className) => {
       const classData = timetable[className];
       const classRoom = classRoomAssignment[className] || `Room ${classNames.indexOf(className) + 101}`;
-      const dayStats = workingDays.map(day => ({
-        day,
-        scheduled: classData[day]?.classes?.length || 0,
-        expected: classTimes.length
-      }));
 
       return (
         <TableContainer key={className}>
-          <SubTitle isTeacher={false}>
+          <SubTitle>
             <FaUserGraduate /> {className} - Timetable
           </SubTitle>
           <RoomInfo>📌 Class Room: {classRoom}</RoomInfo>
@@ -1780,7 +610,7 @@ const ResultTimeTable = () => {
               <tr>
                 <TimeColumn>Time</TimeColumn>
                 {workingDays.map((day) => (
-                  <Th key={day} isTeacher={false}>{day}</Th>
+                  <Th key={day}>{day}</Th>
                 ))}
               </tr>
             </thead>
@@ -1793,16 +623,19 @@ const ResultTimeTable = () => {
                     {workingDays.map((day) => {
                       const dayClasses = classData[day]?.classes || [];
                       const matchedClass = dayClasses.find(cls => 
-                        cls.time === timeSlot || cls.time === formattedTime
+                        cls?.time === timeSlot || 
+                        cls?.time === formattedTime ||
+                        cls?.rawTime === timeSlot
                       );
                       return (
-                        <Td key={day} isFree={!matchedClass} isTeacher={false}>
+                        <Td key={day} $isFree={!matchedClass}>
                           {matchedClass ? (
                             <>
                               <strong>Subject: {matchedClass.subject}</strong> <br />
-                              <span>👨‍🏫 {matchedClass.teacher}</span> <br />
+                              <span>👨‍🏫 Teacher: {matchedClass.teacher}</span> <br />
+                              {matchedClass.room && <span>🏫 Room: {matchedClass.room}</span>}
                             </>
-                          ) : "No Class"}
+                          ) : "Free"}
                         </Td>
                       );
                     })}
@@ -1810,25 +643,25 @@ const ResultTimeTable = () => {
                 );
               })}
 
-              {labTimings.length > 0 && (
-                <tr>
+              {labTimings.map((labTime) => (
+                <tr key={`lab-${labTime}`}>
                   <Td>
-                    <strong>Lab - {formatTimeSlot(labTimings[0])}</strong>
+                    <strong>Lab - {formatTimeSlot(labTime)}</strong>
                   </Td>
                   {workingDays.map((day) => {
                     const labData = classData[day]?.lab;
                     const slots = Array.isArray(labData?.slots) ? labData.slots : [];
                     return (
-                      <Td key={day} isFree={slots.length === 0} isTeacher={false}>
+                      <Td key={day} $isFree={slots.length === 0}>
                         {slots.length > 0 ? (
-                          <LabSlot isTeacher={false}>
+                          <LabSlot>
                             {slots.map((labSlot, index) => (
                               <React.Fragment key={index}>
                                 <div>
                                   <span>Batch: {labSlot.batch}</span> <br />
                                   <span>Subject: {labSlot.subject}</span> <br />
-                                  <span>👨‍🏫 {labSlot.teacher}</span> <br />
-                                  <span>🏫 <LabLocation>{labSlot.lab}</LabLocation></span>
+                                  <span>👨‍🏫 Teacher: {labSlot.teacher}</span> <br />
+                                  <span>🏫 <LabLocation>{labSlot.location}</LabLocation></span>
                                 </div>
                                 {index < slots.length - 1 && <BatchDivider />}
                               </React.Fragment>
@@ -1839,7 +672,7 @@ const ResultTimeTable = () => {
                     );
                   })}
                 </tr>
-              )}
+              ))}
             </tbody>
           </Table>
         </TableContainer>
@@ -1849,7 +682,7 @@ const ResultTimeTable = () => {
 
   const renderJsonView = () => (
     <TableContainer>
-      <SubTitle isJson={true}>
+      <SubTitle $isJson={true}>
         <FaCode /> Timetable Data (JSON)
       </SubTitle>
       <JsonViewer>
@@ -1866,6 +699,38 @@ const ResultTimeTable = () => {
     </TableContainer>
   );
 
+  const handleDownloadPDF = () => {
+    const input = document.getElementById("timetable-container");
+    html2canvas(input, { scale: 3 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save(`${viewMode}-timetable.pdf`);
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <Container>
+        <NoDataMessage>
+          <FaExclamationTriangle /> Loading timetable data...
+        </NoDataMessage>
+      </Container>
+    );
+  }
+
+  if (!timetable || Object.keys(timetable).length === 0) {
+    return (
+      <Container>
+        <NoDataMessage>
+          <FaExclamationTriangle /> No timetable data found.
+        </NoDataMessage>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <Title>
@@ -1879,33 +744,42 @@ const ResultTimeTable = () => {
           </>
         ) : (
           <>
-            <FaCode /> Timetable Data (JSON)
+            <FaCode /> Timetable Data
           </>
         )}
       </Title>
 
       <ButtonContainer>
         <ToggleButton
-          active={viewMode === 'student'}
+          $active={viewMode === 'student'}
           onClick={() => setViewMode('student')}
-          mode="student"
+          $mode="student"
         >
           <FaUserGraduate /> Student View
         </ToggleButton>
         <ToggleButton
-          active={viewMode === 'teacher'}
+          $active={viewMode === 'teacher'}
           onClick={() => setViewMode('teacher')}
-          mode="teacher"
+          $mode="teacher"
         >
           <FaChalkboardTeacher /> Teacher View
         </ToggleButton>
         <ToggleButton
-          active={viewMode === 'json'}
+          $active={viewMode === 'json'}
           onClick={() => setViewMode('json')}
-          mode="json"
+          $mode="json"
         >
           <FaCode /> JSON View
         </ToggleButton>
+        {viewMode === 'teacher' && (
+          <ToggleButton
+            $active={debugMode}
+            onClick={() => setDebugMode(!debugMode)}
+            $mode="teacher"
+          >
+            <FaBug /> Debug {debugMode ? 'ON' : 'OFF'}
+          </ToggleButton>
+        )}
       </ButtonContainer>
 
       {viewMode !== 'json' && (
