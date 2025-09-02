@@ -1452,7 +1452,7 @@ const ResultTimeTable = () => {
                             <>
                               <strong>Subject: {matchedClass.subject}</strong> <br />
                               <span>👨‍🏫 Teacher: {matchedClass.teacher}</span> <br />
-                              {matchedClass.room && <span>🏫 Room: {matchedClass.room}</span>}
+                              {/* {matchedClass.room && <span>🏫 Room: {matchedClass.room}</span>} */}
                             </>
                           ) : "Free"}
                         </Td>
